@@ -1,0 +1,47 @@
+﻿@model List<Car>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<section class="py-5 text-center container">
+    <div class="row py-lg-5">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">AutoTradeHub - продажа авто в Хабаровске</h1>   
+            <p>
+                <a href="#" class="btn btn-primary my-2">Расширенный поиск</a>
+                <a asp-controller="Car" asp-action="Create" class="btn btn-secondary my-2">Разместить объявление</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            @foreach (Car car in Model)
+            {
+                <div class="card mx-auto" style="width: 26rem; height: 26rem;">
+                    <img class="card-img-top" style="object-fit: cover" height="100%" src="\img\KIA RIO 2019.jpg" alt="Car image">
+                    <div class="card-body">
+                        <h5 class="card-title">@car.Marka.Name</h5>
+                        <p class="card-text">@car.Price ₽</p>
+                        <a href="#" class="btn btn-primary">Добавить в избранное</a>
+                    </div>
+                </div>
+            }
+            @for (int i = 0; i < 10; i++)
+            {
+                <div class="card mx-auto" style="width: 26rem; height: 26rem;">
+                    <img class="card-img-top" style="object-fit: cover" height="100%" src="\img\bmw-m2-cs-2020.jpg" alt="Car image">
+                    <div class="card-body">
+                        <h5 class="card-title">@i</h5>
+                        <p class="card-text">@i ₽</p>
+                        <a href="#" class="btn btn-primary">Добавить в избранное</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
