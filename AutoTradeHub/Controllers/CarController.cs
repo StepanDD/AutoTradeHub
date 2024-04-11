@@ -24,7 +24,7 @@ namespace AutoTradeHub.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             Car car = await _carRepository.GetByIdAsync(id);
-            return View(car); //Не создан!
+            return View(car);
         }
         public async Task<IActionResult> Create()
         {

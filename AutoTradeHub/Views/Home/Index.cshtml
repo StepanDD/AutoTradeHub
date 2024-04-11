@@ -22,14 +22,16 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @foreach (Car car in Model)
             {
-                <div class="card mx-auto" style="width: 26rem; height: 26rem;">
-                    <img class="card-img-top" style="object-fit: cover" height="100%" src="\img\KIA RIO 2019.jpg" alt="Car image">
-                    <div class="card-body">
-                        <h5 class="card-title">@car.Marka.Name</h5>
-                        <p class="card-text">@car.Price ₽</p>
-                        <a href="#" class="btn btn-primary">Добавить в избранное</a>
+                <a asp-controller="Car" asp-action="Detail" asp-route-id="@car.Id">
+                    <div class="card mx-auto" style="width: 26rem; height: 26rem;">
+                        <img class="card-img-top" style="object-fit: cover" height="100%" src="\img\KIA RIO 2019.jpg" alt="Car image">
+                        <div class="card-body">
+                            <h5 class="card-title">@car.Marka.Name</h5>
+                            <p class="card-text">@car.Price ₽</p>
+                            <a href="#" class="btn btn-primary">Добавить в избранное</a>
+                        </div>
                     </div>
-                </div>
+                </a>
             }
             @for (int i = 0; i < 10; i++)
             {

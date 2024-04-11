@@ -28,7 +28,7 @@ namespace AutoTradeHub.Repository
 
         public async Task<IEnumerable<Marka>> GetAll()
         {
-            return await _context.marks.ToListAsync();
+            return await _context.marks.OrderBy(s => s.Name).ToListAsync();
         }
 
         public async Task<Marka> GetByIdAsync(int id)
