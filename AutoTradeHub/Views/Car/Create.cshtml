@@ -7,39 +7,42 @@
 *@
 @{
 }
-<form>
+<form method="post" asp-action="Create">
     <div class="row">
         <div class="col">
             <div class="form-group">
-                <label asp-for="Marka.Name">Марка</label>
-                <select id="selectMarka" class="form-control" data-live-search="true">
+                <label asp-for="MarkaId">Марка</label>
+                <select asp-for="MarkaId" id="selectMarka" class="form-control" data-live-search="true">
                     @foreach (Marka marka in ViewBag.marks)
                     {
-                        <option value="@marka.Name">@marka.Name</option>
+                        <option value="@marka.Id">@marka.Name</option>
                     }
                 </select>
+                <span asp-validation-for="MarkaId" class="text-danger"></span>
             </div>
         </div>
         <div class="col">
             <div class="form-group">
-                <label asp-for="Model.Name">Модель</label>
-                <select class="form-control" data-live-search="true">
+                <label asp-for="ModelId">Модель</label>
+                <select asp-for="ModelId" class="form-control" data-live-search="true">
                     @foreach (Model mmodel in ViewBag.models)
                     {
-                        <option value="@mmodel.Name">@mmodel.Name</option>
+                        <option value="@mmodel.Id">@mmodel.Name</option>
                     }
                 </select>
+                <span asp-validation-for="ModelId" class="text-danger"></span>
             </div>
         </div>
         <div class="col">
             <div class="form-group">
-                <label asp-for="Generation.Name">Поколение</label>
-                <select class="form-control" data-live-search="true">
+                <label asp-for="GenerationId">Поколение</label>
+                <select asp-for="GenerationId" class="form-control" data-live-search="true">
                     @foreach (Generation generation in ViewBag.generations)
                     {
-                        <option value="@generation.Name">@generation.Name</option>
+                        <option value="@generation.Id">@generation.Name</option>
                     }
                 </select>
+                <span asp-validation-for="GenerationId" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -62,11 +65,12 @@
         <div class="col">
             <div class="form-group">
                 <label asp-for="BodyType">Тип кузова</label>
-                <select class="form-control" data-live-search="true">
+                <select asp-for="BodyType" class="form-control" data-live-search="true">
                     <option value="1">Седан</option>
                     <option value="2">Внедорожник</option>
                     <option value="3">Кабриолет</option>
                 </select>
+                <span asp-validation-for="BodyType" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -75,11 +79,12 @@
         <div class="col">
             <div class="form-group">
                 <label asp-for="EngineType">Тип двигателя</label>
-                <select class="form-control" data-live-search="true">
+                <select asp-for="EngineType" class="form-control" data-live-search="true">
                     <option value="1">Бензиновый</option>
                     <option value="2">Дизельный</option>
                     <option value="3">Электрический</option>
                 </select>
+                <span asp-validation-for="EngineType" class="text-danger"></span>
             </div>
         </div>
         <div class="col">
@@ -99,21 +104,23 @@
         <div class="col">
             <div class="form-group">
                 <label asp-for="Gearbox">Тип КПП</label>
-                <select class="form-control" data-live-search="true">
+                <select asp-for="Gearbox" class="form-control" data-live-search="true">
                     <option value="1">Автомат</option>
                     <option value="2">Механика</option>
                     <option value="3">Робот</option>
                 </select>
+                <span asp-validation-for="Gearbox" class="text-danger"></span>
             </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label asp-for="Privod">Привод</label>
-                <select class="form-control" data-live-search="true">
+                <select asp-for="Privod" class="form-control" data-live-search="true">
                     <option value="1">Передний</option>
                     <option value="2">Задний</option>
                     <option value="3">Полный</option>
                 </select>
+                <span asp-validation-for="Privod" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -122,10 +129,11 @@
         <div class="col">
             <div class="form-group">
                 <label asp-for="SteeringWheel">Расположение руля</label>
-                <select class="form-control" data-live-search="true">
-                    <option value="1">Левый</option>
-                    <option value="2">Правый</option>
+                <select asp-for="SteeringWheel" class="form-control" data-live-search="true">
+                    <option value="True">Левый</option>
+                    <option value="False">Правый</option>
                 </select>
+                <span asp-validation-for="SteeringWheel" class="text-danger"></span>
             </div>
         </div>
         <div class="col">
@@ -137,13 +145,14 @@
         </div>
         <div class="col">
             <div class="form-group">
-                <label asp-for="Color.Name">Цвет</label>
-                <select class="form-control" data-live-search="true">
+                <label asp-for="ColorId">Цвет</label>
+                <select asp-for="ColorId" class="form-control" data-live-search="true">
                     @foreach (Color color in ViewBag.colors)
                     {
-                        <option value="@color.Name">@color.Name</option>
+                        <option value="@color.Id">@color.Name</option>
                     }
                 </select>
+                <span asp-validation-for="ColorId" class="text-danger"></span>
             </div>
         </div>
 
@@ -152,8 +161,12 @@
     <div class="form-group">
         <label asp-for="Description">Описание</label>
         <textarea asp-for="Description" class="form-control" rows="7"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
+    <button type="submit" class="btn btn-primary">
+        Разместить объявление
+    </button>
 </form>
 <script>
     function getSelectedMarka() {

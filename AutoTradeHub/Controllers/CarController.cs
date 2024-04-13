@@ -24,7 +24,7 @@ namespace AutoTradeHub.Controllers
         }
         public IActionResult Index()
         {
-            return View(); //Не создан!
+            return View();
         }
         public async Task<IActionResult> Detail(int id)
         {
@@ -37,6 +37,25 @@ namespace AutoTradeHub.Controllers
             ViewBag.models = await _modelRepository.GetAll();
             ViewBag.generations = await _generationRepository.GetAll();
             ViewBag.colors = await _colorRepository.GetAll();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Car car)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.marks = await _markaRepository.GetAll();
+                ViewBag.models = await _modelRepository.GetAll();
+                ViewBag.generations = await _generationRepository.GetAll();
+                ViewBag.colors = await _colorRepository.GetAll();
+                return View();
+            }
+            _carRepository.Add(car);
+            return RedirectToAction("Index");
+        }
+        public IActionResult Error()
+        {
             return View();
         }
     }
