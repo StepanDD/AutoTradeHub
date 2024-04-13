@@ -2,6 +2,7 @@
 using AutoTradeHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutoTradeHub.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240412072145_Add_FK_Generation")]
+    partial class Add_FK_Generation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,9 +67,6 @@ namespace AutoTradeHub.Migrations
 
                     b.Property<byte>("Privod")
                         .HasColumnType("smallint");
-
-                    b.Property<long>("Probeg")
-                        .HasColumnType("bigint");
 
                     b.Property<bool>("SteeringWheel")
                         .HasColumnType("boolean");

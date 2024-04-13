@@ -2,6 +2,7 @@
 using AutoTradeHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutoTradeHub.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240412071553_More_data_in_Car")]
+    partial class More_data_in_Car
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,9 +53,6 @@ namespace AutoTradeHub.Migrations
                     b.Property<byte>("Gearbox")
                         .HasColumnType("smallint");
 
-                    b.Property<int>("GenerationId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("MarkaId")
                         .HasColumnType("integer");
 
@@ -65,9 +65,6 @@ namespace AutoTradeHub.Migrations
                     b.Property<byte>("Privod")
                         .HasColumnType("smallint");
 
-                    b.Property<long>("Probeg")
-                        .HasColumnType("bigint");
-
                     b.Property<bool>("SteeringWheel")
                         .HasColumnType("boolean");
 
@@ -77,8 +74,6 @@ namespace AutoTradeHub.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ColorId");
-
-                    b.HasIndex("GenerationId");
 
                     b.HasIndex("MarkaId");
 
@@ -172,12 +167,6 @@ namespace AutoTradeHub.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AutoTradeHub.Models.Generation", "Generation")
-                        .WithMany()
-                        .HasForeignKey("GenerationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AutoTradeHub.Models.Marka", "Marka")
                         .WithMany()
                         .HasForeignKey("MarkaId")
@@ -191,8 +180,6 @@ namespace AutoTradeHub.Migrations
                         .IsRequired();
 
                     b.Navigation("Color");
-
-                    b.Navigation("Generation");
 
                     b.Navigation("Marka");
 

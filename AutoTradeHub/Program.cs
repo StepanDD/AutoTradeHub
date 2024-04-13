@@ -10,6 +10,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<IMarkaRepository, MarkaRepository>();
 builder.Services.AddScoped<IModelRepository, ModelRepository>();
+builder.Services.AddScoped<IGenerationRepository, GenerationRepository>();
+builder.Services.AddScoped<IColorRepository, ColorRepository>();
 
 var connectionString = builder.Configuration.GetConnectionString("AppDbConnectionString");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
