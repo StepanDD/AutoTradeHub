@@ -33,7 +33,7 @@ namespace AutoTradeHub.Repository
 
         public async Task<Car> GetByIdAsync(int id)
         {
-            return await _context.cars.Include(a => a.Marka).Include(a => a.Model).FirstOrDefaultAsync(i => i.Id == id);
+            return await _context.cars.Include(a => a.Color).Include(a => a.Generation).Include(a => a.Marka).Include(a => a.Model).FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public async Task<IEnumerable<Car>> GetCarByMarka(string marka)
