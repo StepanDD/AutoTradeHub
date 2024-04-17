@@ -51,6 +51,47 @@ namespace AutoTradeHub.Controllers
 			}
 			TempData["Error"] = "Неверный Email или пароль";
 			return View(loginVM);
+        }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            var response = new RegisterVM();
+            return View(response);
+        }
+
+		[HttpPost]
+		public async Task<IActionResult> Register(RegisterVM registerVM)
+		{
+			if(!ModelState.IsValid)
+			{
+				return View(registerVM);
+			}
+			AppUser user = await _userManager.FindByEmailAsync(registerVM.Email);
+			if(user != null)
+			{
+				TempData["Error"] = "Пользователь с таким адресом электронной почты уже существует";
+				return View(registerVM);
+			}
+			AppUser newUser = new AppUser()
+			{
+				Email = registerVM.Email,
+				UserName = registerVM.Email,
+			};
+			var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
+			if (newUserResponse.Succeeded)
+			{
+				await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+				return RedirectToAction("Index", "Home");
+			}
+			TempData["Error"] = "Ошибка регистрации";
+			return View(registerVM);
 		}
-	}
+
+		[HttpPost]
+		public  async Task<IActionResult> Logout()
+		{
+			await _signInManager.SignOutAsync();
+			return RedirectToAction("Index", "Home");
+		}
+    }
 }
