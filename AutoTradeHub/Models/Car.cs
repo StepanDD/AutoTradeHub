@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AutoTradeHub.Data.Enum;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutoTradeHub.Models
@@ -42,10 +43,10 @@ namespace AutoTradeHub.Models
         public ushort EnginePower { get; set; }
 
         // Расположение руля
-        public bool SteeringWheel { get; set; }
+        public SteeringWheel SteeringWheel { get; set; }
 
         // КПП
-        public byte Gearbox { get; set; }
+        public GearBox Gearbox { get; set; }
 
         // Описание
         public string? Description { get; set; }
@@ -54,13 +55,13 @@ namespace AutoTradeHub.Models
         public ushort Year { get; set; }
 
         // Тип двигателя
-        public byte EngineType { get; set; }
+        public EngineType EngineType { get; set; }
 
         // Привод
-        public byte Privod { get; set; }
+        public Privod Privod { get; set; }
 
         // Тип кузова
-        public byte BodyType { get; set; }
+        public BodyType BodyType { get; set; }
 
         // Пробег
         public uint Probeg { get; set; }

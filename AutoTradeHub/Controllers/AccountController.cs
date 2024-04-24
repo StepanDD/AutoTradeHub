@@ -81,13 +81,14 @@ namespace AutoTradeHub.Controllers
 			if (newUserResponse.Succeeded)
 			{
 				await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+				await _signInManager.SignInAsync(newUser, true);
 				return RedirectToAction("Index", "Home");
 			}
 			TempData["Error"] = "Ошибка регистрации";
 			return View(registerVM);
 		}
 
-		[HttpPost]
+		[HttpGet]
 		public  async Task<IActionResult> Logout()
 		{
 			await _signInManager.SignOutAsync();

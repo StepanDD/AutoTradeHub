@@ -54,7 +54,8 @@ namespace AutoTradeHub.Controllers
             _carRepository.Add(car);
             return RedirectToAction("Index");
         }
-        public IActionResult Error()
+
+		public IActionResult Error()
         {
             return View();
         }

@@ -44,6 +44,15 @@
 				<button type="button" class="btn btn-outline-primary">Связаться с продавцом</button>
 				<button type="button" class="btn btn-outline-primary">Поделиться объявлением</button>
 			</div>
+			@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+			{
+				<div class="d-grid">
+					<a asp-controller="Car" asp-action="Delete" asp-route-car="@Model"
+							type="button" class="btn btn-danger mt-4">
+						Удалить объявление
+					</a>
+				</div>
+			}
 		</div>
 		<div class="col">
 			<div class="row">

@@ -1,4 +1,5 @@
-﻿@using Microsoft.JSInterop
+﻿@using AutoTradeHub.Data.Enum
+@using Microsoft.JSInterop
 @model Car
 @inject IJSRuntime JsRuntime
 
@@ -66,10 +67,8 @@
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="BodyType">Тип кузова</label>
-					<select asp-for="BodyType" class="form-control" data-live-search="true">
-						<option value="1">Седан</option>
-						<option value="2">Внедорожник</option>
-						<option value="3">Кабриолет</option>
+					<select asp-for="BodyType" class="form-control" data-live-search="true"
+					asp-items="@Html.GetEnumSelectList<BodyType>()">
 					</select>
 					<span asp-validation-for="BodyType" class="text-danger"></span>
 				</div>
@@ -80,10 +79,8 @@
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="EngineType">Тип двигателя</label>
-					<select asp-for="EngineType" class="form-control" data-live-search="true">
-						<option value="1">Бензиновый</option>
-						<option value="2">Дизельный</option>
-						<option value="3">Электрический</option>
+					<select asp-for="EngineType" class="form-control" data-live-search="true"
+							asp-items="@Html.GetEnumSelectList<EngineType>()">
 					</select>
 					<span asp-validation-for="EngineType" class="text-danger"></span>
 				</div>
@@ -105,10 +102,8 @@
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="Gearbox">Тип КПП</label>
-					<select asp-for="Gearbox" class="form-control" data-live-search="true">
-						<option value="1">Автомат</option>
-						<option value="2">Механика</option>
-						<option value="3">Робот</option>
+					<select asp-for="Gearbox" class="form-control" data-live-search="true"
+							asp-items="@Html.GetEnumSelectList<GearBox>()">
 					</select>
 					<span asp-validation-for="Gearbox" class="text-danger"></span>
 				</div>
@@ -116,10 +111,8 @@
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="Privod">Привод</label>
-					<select asp-for="Privod" class="form-control" data-live-search="true">
-						<option value="1">Передний</option>
-						<option value="2">Задний</option>
-						<option value="3">Полный</option>
+					<select asp-for="Privod" class="form-control" data-live-search="true"
+							asp-items="@Html.GetEnumSelectList<Privod>()">
 					</select>
 					<span asp-validation-for="Privod" class="text-danger"></span>
 				</div>
@@ -130,9 +123,8 @@
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="SteeringWheel">Расположение руля</label>
-					<select asp-for="SteeringWheel" class="form-control" data-live-search="true">
-						<option value="True">Левый</option>
-						<option value="False">Правый</option>
+					<select asp-for="SteeringWheel" class="form-control" data-live-search="true"
+							asp-items="@Html.GetEnumSelectList<SteeringWheel>()">
 					</select>
 					<span asp-validation-for="SteeringWheel" class="text-danger"></span>
 				</div>

@@ -25,6 +25,11 @@ namespace AutoTradeHub.Repository
             _context.Remove(car);
             return Save();
         }
+        public bool DeleteById(int id)
+        {
+            _context.Remove(GetByIdAsync(id));
+            return Save();
+        }
 
         public async Task<IEnumerable<Car>> GetAll()
         {
