@@ -4,11 +4,12 @@ namespace AutoTradeHub.ViewModels
 {
 	public class LoginVM
 	{
-		[Required]
-		[Display(Name = "Email Address")]
+		[Required(ErrorMessage = "Введите электронную почту!")]
+		[Display(Name = "Адрес электронной почты")]
 		public string Email { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Введите пароль!")]
 		[DataType(DataType.Password)]
-		public string Password { get; set; }
+        [Display(Name = "Пароль")]
+        public string Password { get; set; }
 	}
 }
