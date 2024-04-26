@@ -6,12 +6,12 @@
 }
 
 <div class="container mt-4">
-    <div class="d-flex justify-content-between mb-4">
-        <h2>@Model.Marka?.Name @Model.Model?.Name @Model.Year</h2>
-        <h2>@Model.Price ₽</h2>
-    </div>
+	<div class="d-flex justify-content-between mb-4">
+		<h2>@Model.Marka?.Name @Model.Model?.Name @Model.Year</h2>
+		<h2>@Model.Price ₽</h2>
+	</div>
 
-    <div class="row">
+	<div class="row">
 		<div class="col">
 			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 				<div class="carousel-indicators">
@@ -46,11 +46,23 @@
 			</div>
 			@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
 			{
-				<div class="d-grid">
-					<a asp-controller="Car" asp-action="Delete" asp-route-car="@Model"
-							type="button" class="btn btn-danger mt-4">
-						Удалить объявление
-					</a>
+				<div class="row mt-4">
+					<div class="col-6">
+						<div class="d-grid">
+							<a asp-controller="Car" asp-action="Edit" asp-route-id="@Model.Id"
+							   type="button" class="btn btn-outline-primary">
+								Редактировать объявление
+							</a>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="d-grid">
+							<a asp-controller="Car" asp-action="Delete" asp-route-car="@Model"
+							   type="button" class="btn btn-outline-danger">
+								Удалить объявление
+							</a>
+						</div>
+					</div>
 				</div>
 			}
 		</div>
@@ -84,5 +96,5 @@
 				</div>
 			</div>
 		</div>
-    </div> 
+	</div>
 </div>

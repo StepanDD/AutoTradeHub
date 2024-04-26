@@ -1,5 +1,6 @@
 ﻿using AutoTradeHub.Interfaces;
 using AutoTradeHub.Models;
+using AutoTradeHub.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoTradeHub.Controllers
@@ -12,8 +13,8 @@ namespace AutoTradeHub.Controllers
         private readonly IGenerationRepository _generationRepository;
         private readonly IColorRepository _colorRepository;
 
-        public CarController(IMarkaRepository markaRepository, ICarRepository carRepository, 
-            IModelRepository modelRepository, IGenerationRepository generationRepository, 
+        public CarController(IMarkaRepository markaRepository, ICarRepository carRepository,
+            IModelRepository modelRepository, IGenerationRepository generationRepository,
             IColorRepository colorRepository)
         {
             _carRepository = carRepository;
@@ -55,9 +56,54 @@ namespace AutoTradeHub.Controllers
             return RedirectToAction("Index");
         }
 
-		public IActionResult Error()
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            Car car = await _carRepository.GetByIdAsync(id);
+            if (car == null)
+            {
+                return View("Error");
+            }
+            ViewBag.marks = await _markaRepository.GetAll();
+            ViewBag.models = await _modelRepository.GetAll();
+            ViewBag.generations = await _generationRepository.GetAll();
+            ViewBag.colors = await _colorRepository.GetAll();
+            var carVM = new EditCarVM()
+            {
+                Id = car.Id,
+                MarkaId = car.MarkaId,
+                Marka = car.Marka,
+                ModelId = car.ModelId,
+                Model = car.Model,
+                GenerationId = car.GenerationId,
+                Generation = car.Generation,
+                ColorId = car.ColorId,
+                Color = car.Color,
+                Price = car.Price,
+                EngineVolume = car.EngineVolume,
+                EnginePower = car.EnginePower,
+                SteeringWheel = car.SteeringWheel,
+                Gearbox = car.Gearbox,
+                Description = car.Description,
+                Year = car.Year,
+                EngineType = car.EngineType,
+                Privod = car.Privod,
+                BodyType = car.BodyType,
+                Probeg = car.Probeg,
+            };
+            return View(carVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, EditCarVM editCarVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Ошибка");
+                return View(editCarVM);
+            }
+            var car = new Car(editCarVM, id);
+            _carRepository.Update(car);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

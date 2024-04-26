@@ -1,0 +1,175 @@
+﻿@using AutoTradeHub.Data.Enum
+@using AutoTradeHub.ViewModels
+@using Microsoft.JSInterop
+@model EditCarVM
+@inject IJSRuntime JsRuntime
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container mt-4">
+	<form method="post" asp-action="Edit">
+		<div class="row">
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="MarkaId">Марка</label>
+					<select asp-for="MarkaId" id="selectMarka" class="form-control" data-live-search="true">
+						@foreach (Marka marka in ViewBag.marks)
+						{
+							<option value="@marka.Id">@marka.Name</option>
+						}
+					</select>
+					<span asp-validation-for="MarkaId" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="ModelId">Модель</label>
+					<select asp-for="ModelId" class="form-control" data-live-search="true">
+						@foreach (Model mmodel in ViewBag.models)
+						{
+							<option value="@mmodel.Id">@mmodel.Name</option>
+						}
+					</select>
+					<span asp-validation-for="ModelId" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="GenerationId">Поколение</label>
+					<select asp-for="GenerationId" class="form-control" data-live-search="true">
+						@foreach (Generation generation in ViewBag.generations)
+						{
+							<option value="@generation.Id">@generation.Name</option>
+						}
+					</select>
+					<span asp-validation-for="GenerationId" class="text-danger"></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="Year">Год</label>
+					<input asp-for="Year" class="form-control" placeholder="Год">
+					<span asp-validation-for="Year" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="Price">Цена</label>
+					<input asp-for="Price" class="form-control" placeholder="Цена">
+					<span asp-validation-for="Price" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="BodyType">Тип кузова</label>
+					<select asp-for="BodyType" class="form-control" data-live-search="true"
+							asp-items="@Html.GetEnumSelectList<BodyType>()">
+					</select>
+					<span asp-validation-for="BodyType" class="text-danger"></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="EngineType">Тип двигателя</label>
+					<select asp-for="EngineType" class="form-control" data-live-search="true"
+							asp-items="@Html.GetEnumSelectList<EngineType>()">
+					</select>
+					<span asp-validation-for="EngineType" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="EngineVolume">Объём двигателя</label>
+					<input asp-for="EngineVolume" class="form-control" placeholder="Объём двигателя">
+					<span asp-validation-for="EngineVolume" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="EnginePower">Мощность двигателя</label>
+					<input asp-for="EnginePower" class="form-control" placeholder="Мощность двигателя">
+					<span asp-validation-for="EnginePower" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="Gearbox">Тип КПП</label>
+					<select asp-for="Gearbox" class="form-control" data-live-search="true"
+							asp-items="@Html.GetEnumSelectList<GearBox>()">
+					</select>
+					<span asp-validation-for="Gearbox" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="Privod">Привод</label>
+					<select asp-for="Privod" class="form-control" data-live-search="true"
+							asp-items="@Html.GetEnumSelectList<Privod>()">
+					</select>
+					<span asp-validation-for="Privod" class="text-danger"></span>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="SteeringWheel">Расположение руля</label>
+					<select asp-for="SteeringWheel" class="form-control" data-live-search="true"
+							asp-items="@Html.GetEnumSelectList<SteeringWheel>()">
+					</select>
+					<span asp-validation-for="SteeringWheel" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="Probeg">Пробег</label>
+					<input asp-for="Probeg" class="form-control" placeholder="Пробег">
+					<span asp-validation-for="Probeg" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="col">
+				<div class="form-group">
+					<label asp-for="ColorId">Цвет</label>
+					<select asp-for="ColorId" class="form-control" data-live-search="true">
+						@foreach (Color color in ViewBag.colors)
+						{
+							<option value="@color.Id">@color.Name</option>
+						}
+					</select>
+					<span asp-validation-for="ColorId" class="text-danger"></span>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="form-group mb-3">
+			<label asp-for="Description">Описание</label>
+			<textarea asp-for="Description" class="form-control" rows="7"></textarea>
+			<span asp-validation-for="Description" class="text-danger"></span>
+		</div>
+
+		<button type="submit" class="btn btn-primary">
+			Сохранить изменения
+		</button>
+		<a asp-controller="Car" asp-action="Detail" asp-route-id="@Model.Id" class="btn btn-secondary">
+			Отмена
+		</a>
+	</form>
+</div>
+<script>
+	function getSelectedMarka() {
+		var selectedValue = document.getElementById("selectMarka").value;
+		return selectedValue;
+	}
+</script>
+
