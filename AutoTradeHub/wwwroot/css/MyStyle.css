@@ -14,4 +14,8 @@
 .detail-carousel-inner {
     height: 400px;
 }
+.myCardImg {
+    height: 200px;
+    object-fit: cover;
+}
 

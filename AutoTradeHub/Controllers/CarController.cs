@@ -30,7 +30,8 @@ namespace AutoTradeHub.Controllers
         public async Task<IActionResult> Detail(int id)
         {
             Car car = await _carRepository.GetByIdAsync(id);
-            return View(car);
+            CarVM carVM = new CarVM(car);
+            return View(carVM);
         }
         public async Task<IActionResult> Create()
         {
@@ -42,7 +43,7 @@ namespace AutoTradeHub.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Car car)
+        public async Task<IActionResult> Create(CarVM carVM)
         {
             if (!ModelState.IsValid)
             {
@@ -52,9 +53,10 @@ namespace AutoTradeHub.Controllers
                 ViewBag.colors = await _colorRepository.GetAll();
                 return View();
             }
-            _carRepository.Add(car);
-            return RedirectToAction("Index");
-        }
+            Car newCar = new Car(carVM);
+            _carRepository.Add(newCar);
+			return RedirectToAction(actionName: "Index", controllerName: "Home");
+		}
 
         public async Task<IActionResult> Edit(int id)
         {
@@ -67,43 +69,44 @@ namespace AutoTradeHub.Controllers
             ViewBag.models = await _modelRepository.GetAll();
             ViewBag.generations = await _generationRepository.GetAll();
             ViewBag.colors = await _colorRepository.GetAll();
-            var carVM = new EditCarVM()
-            {
-                Id = car.Id,
-                MarkaId = car.MarkaId,
-                Marka = car.Marka,
-                ModelId = car.ModelId,
-                Model = car.Model,
-                GenerationId = car.GenerationId,
-                Generation = car.Generation,
-                ColorId = car.ColorId,
-                Color = car.Color,
-                Price = car.Price,
-                EngineVolume = car.EngineVolume,
-                EnginePower = car.EnginePower,
-                SteeringWheel = car.SteeringWheel,
-                Gearbox = car.Gearbox,
-                Description = car.Description,
-                Year = car.Year,
-                EngineType = car.EngineType,
-                Privod = car.Privod,
-                BodyType = car.BodyType,
-                Probeg = car.Probeg,
-            };
+            var carVM = new CarVM(car);
             return View(carVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, EditCarVM editCarVM)
+        public async Task<IActionResult> Edit(int id, CarVM carVM)
         {
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Ошибка");
-                return View(editCarVM);
+                return View(carVM);
             }
-            var car = new Car(editCarVM, id);
+            var car = new Car(carVM, id);
             _carRepository.Update(car);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(actionName: "Detail", routeValues: new { id = id });
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            Car car = await _carRepository.GetByIdAsync(id);
+            if (car == null)
+            {
+                return View("Error");
+            }
+            CarVM carVM = new CarVM(car);
+            return View(carVM);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(CarVM carVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Ошибка");
+                return View(carVM);
+            }
+            var car = new Car(carVM, carVM.Id);
+            _carRepository.Delete(car);
+            return RedirectToAction(actionName: "Index", controllerName: "Home");
         }
     }
 }

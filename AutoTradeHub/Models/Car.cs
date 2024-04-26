@@ -8,6 +8,7 @@ namespace AutoTradeHub.Models
 	public class Car
 	{
 		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
 
 		// Марка
@@ -68,7 +69,7 @@ namespace AutoTradeHub.Models
 		public uint Probeg { get; set; }
 
 		public Car() { }
-        public Car(EditCarVM carVM, int id)
+        public Car(CarVM carVM, int id = 0)
 		{
 			this.Id = id;
 			this.MarkaId = carVM.MarkaId;

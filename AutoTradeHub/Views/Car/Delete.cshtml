@@ -1,0 +1,17 @@
+﻿@using AutoTradeHub.ViewModels
+@model CarVM;
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container mt-4">
+	<form method="post" asp-action="Delete">
+		<button type="submit" class="btn btn-danger">
+			Удалить
+		</button>
+		<a asp-controller="Car" asp-action="Detail" asp-route-id="@Model.Id" class="btn btn-secondary">
+			Отмена
+		</a>
+	</form>
