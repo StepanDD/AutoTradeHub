@@ -31,9 +31,13 @@
 							<input asp-for="Password" class="form-control" />
 							<span asp-validation-for="Password" class="text-danger"></span>
 						</div>
-						<div class="d-flex justify-content-between mt-4" style="margin-bottom: 150px;">
+						<div class="d-flex justify-content-between mt-4">
 							<input class="btn btn-primary float right" type="submit" style="width: 80%;" value="Войти" />
 							<a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Отмена</a>
+						</div>
+						<div class="d-flex justify-content-between align-items-center mt-4" style="margin-bottom: 150px;">
+							<label class="control-label mb-2">Впервые у нас?</label>
+							<a class="btn btn-outline-primary" asp-controller="Account" asp-action="Register" style="width: 70%;">Регистрация</a>
 						</div>
 					</form>
 				</div>

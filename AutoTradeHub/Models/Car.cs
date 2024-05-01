@@ -39,7 +39,7 @@ namespace AutoTradeHub.Models
 		public uint Price { get; set; }
 
 		// Объём двигателя
-		public float EngineVolume { get; set; }
+		public double EngineVolume { get; set; }
 
 		// Мощность двигателя
 		public ushort EnginePower { get; set; }
@@ -68,6 +68,11 @@ namespace AutoTradeHub.Models
 		// Пробег
 		public uint Probeg { get; set; }
 
+		// Собственник
+		[ForeignKey("AppUser")]
+		public string? AppUserId { get; set; }
+		public AppUser? AppUser { get; set; }
+
 		public Car() { }
         public Car(CarVM carVM, int id = 0)
 		{
@@ -91,6 +96,8 @@ namespace AutoTradeHub.Models
 			this.Privod = carVM.Privod;
 			this.BodyType = carVM.BodyType;
 			this.Probeg = carVM.Probeg;
+			this.AppUser = carVM.AppUser;
+			this.AppUserId = carVM.AppUserId;
 		}
 	}
 }

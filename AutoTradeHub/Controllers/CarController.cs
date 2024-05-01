@@ -1,6 +1,7 @@
 ﻿using AutoTradeHub.Interfaces;
 using AutoTradeHub.Models;
 using AutoTradeHub.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoTradeHub.Controllers
@@ -12,17 +13,19 @@ namespace AutoTradeHub.Controllers
         private readonly IMarkaRepository _markaRepository;
         private readonly IGenerationRepository _generationRepository;
         private readonly IColorRepository _colorRepository;
+		private readonly IUserRepository _userRepository;
 
-        public CarController(IMarkaRepository markaRepository, ICarRepository carRepository,
+		public CarController(IMarkaRepository markaRepository, ICarRepository carRepository,
             IModelRepository modelRepository, IGenerationRepository generationRepository,
-            IColorRepository colorRepository)
+            IColorRepository colorRepository, IUserRepository userRepository)
         {
             _carRepository = carRepository;
             _modelRepository = modelRepository;
             _markaRepository = markaRepository;
             _generationRepository = generationRepository;
             _colorRepository = colorRepository;
-        }
+			_userRepository = userRepository;
+		}
         public IActionResult Index()
         {
             return View();
@@ -33,7 +36,9 @@ namespace AutoTradeHub.Controllers
             CarVM carVM = new CarVM(car);
             return View(carVM);
         }
-        public async Task<IActionResult> Create()
+
+		[Authorize]
+		public async Task<IActionResult> Create()
         {
             ViewBag.marks = await _markaRepository.GetAll();
             ViewBag.models = await _modelRepository.GetAll();
@@ -42,7 +47,8 @@ namespace AutoTradeHub.Controllers
             return View();
         }
 
-        [HttpPost]
+		[Authorize]
+		[HttpPost]
         public async Task<IActionResult> Create(CarVM carVM)
         {
             if (!ModelState.IsValid)
@@ -53,12 +59,15 @@ namespace AutoTradeHub.Controllers
                 ViewBag.colors = await _colorRepository.GetAll();
                 return View();
             }
+            carVM.AppUser = await _userRepository.GetCurrentUser();
+            carVM.AppUserId = carVM.AppUser.Id;
             Car newCar = new Car(carVM);
             _carRepository.Add(newCar);
 			return RedirectToAction(actionName: "Index", controllerName: "Home");
 		}
 
-        public async Task<IActionResult> Edit(int id)
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> Edit(int id)
         {
             Car car = await _carRepository.GetByIdAsync(id);
             if (car == null)
@@ -73,7 +82,8 @@ namespace AutoTradeHub.Controllers
             return View(carVM);
         }
 
-        [HttpPost]
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
         public async Task<IActionResult> Edit(int id, CarVM carVM)
         {
             if (!ModelState.IsValid)
@@ -86,7 +96,8 @@ namespace AutoTradeHub.Controllers
             return RedirectToAction(actionName: "Detail", routeValues: new { id = id });
         }
 
-        public async Task<IActionResult> Delete(int id)
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> Delete(int id)
         {
             Car car = await _carRepository.GetByIdAsync(id);
             if (car == null)
@@ -96,7 +107,9 @@ namespace AutoTradeHub.Controllers
             CarVM carVM = new CarVM(car);
             return View(carVM);
         }
-        [HttpPost]
+
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
         public async Task<IActionResult> Delete(CarVM carVM)
         {
             if (!ModelState.IsValid)

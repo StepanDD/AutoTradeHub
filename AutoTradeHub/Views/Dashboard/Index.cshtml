@@ -1,0 +1,37 @@
+﻿@using AutoTradeHub.ViewModels
+@model DashboardVM
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-3">
+			<div>
+				<img src="~/img/enot_ava.jpg" alt="Аватарка" class="img-thumbnail" />
+			</div>
+			<div class="d-grid gap-3">
+				<button type="button" class="btn btn-outline-primary">Разместить объявление</button>
+				<button type="button" class="btn btn-outline-primary">Редактировать профиль</button>
+				<button type="button" class="btn btn-outline-danger">Удалить аккаунт</button>
+			</div>
+		</div>
+		<div class="col">
+			<div class="row">
+				<div class="col-md-auto">
+					<p class="text-muted">Имя</p>
+					<p class="text-muted">Email</p>
+					<p class="text-muted">Номер телефона</p>
+				</div>
+				<div class="col">
+					<p>@Model.AppUser.UserName</p>
+					<p>@Model.AppUser.Email</p>
+					<p>@Model.AppUser.PhoneNumber</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

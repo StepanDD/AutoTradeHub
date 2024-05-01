@@ -29,6 +29,8 @@ namespace AutoTradeHub.ViewModels
 			this.Privod = car.Privod;
 			this.BodyType = car.BodyType;
 			this.Probeg = car.Probeg;
+			this.AppUser = car.AppUser;
+			this.AppUserId = car.AppUserId;
 		}
 		public int Id { get; set; }
 
@@ -53,8 +55,9 @@ namespace AutoTradeHub.ViewModels
 		public uint Price { get; set; }
 
 		// Объём двигателя
-		[Required(ErrorMessage = "Введите объём двигателя!")]
-		public float EngineVolume { get; set; }
+		//[Required(ErrorMessage = "Введите объём двигателя!")]
+		[Range(0.0, 1000.0, ErrorMessage = "Недопустимое значение объёма!")]
+		public double EngineVolume { get; set; }
 
 		// Мощность двигателя
 		[Required(ErrorMessage = "Введите мощность двигателя!")]
@@ -85,5 +88,8 @@ namespace AutoTradeHub.ViewModels
 		// Пробег
 		[Required(ErrorMessage = "Введите пробег!")]
 		public uint Probeg { get; set; }
+
+		public string? AppUserId { get; set; }
+		public AppUser? AppUser { get; set; }
 	}
 }

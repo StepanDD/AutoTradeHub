@@ -3,6 +3,7 @@ using System;
 using AutoTradeHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutoTradeHub.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240427110003_ChangeFloatToDouble")]
+    partial class ChangeFloatToDouble
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,9 +97,6 @@ namespace AutoTradeHub.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("text");
-
                     b.Property<byte>("BodyType")
                         .HasColumnType("smallint");
 
@@ -143,8 +143,6 @@ namespace AutoTradeHub.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.HasIndex("ColorId");
 
@@ -368,10 +366,6 @@ namespace AutoTradeHub.Migrations
 
             modelBuilder.Entity("AutoTradeHub.Models.Car", b =>
                 {
-                    b.HasOne("AutoTradeHub.Models.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("AutoTradeHub.Models.Color", "Color")
                         .WithMany()
                         .HasForeignKey("ColorId")
@@ -395,8 +389,6 @@ namespace AutoTradeHub.Migrations
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AppUser");
 
                     b.Navigation("Color");
 
