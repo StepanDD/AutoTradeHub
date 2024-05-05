@@ -2,7 +2,7 @@
 @using AutoTradeHub.ViewModels
 @using Microsoft.JSInterop
 @model CarVM
-@inject IJSRuntime JsRuntime
+@inject IJSRuntime JS
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,7 +15,8 @@
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="MarkaId">Марка</label>
-					<select asp-for="MarkaId" id="selectMarka" class="form-control" data-live-search="true">
+					<select asp-for="MarkaId" id="selectMarka" class="form-control" data-live-search="true"
+					onchange="updateModelList();">
 						@foreach (Marka marka in ViewBag.marks)
 						{
 							<option value="@marka.Id">@marka.Name</option>
@@ -163,9 +164,27 @@
 		</button>
 	</form>
 </div>
-<script>
-	function getSelectedMarka() {
-		var selectedValue = document.getElementById("selectMarka").value;
-		return selectedValue;
-	}
-</script>
+@section Scripts {
+	<script>
+		function updateModelList()
+		{
+			$.ajax({
+				type: "GET",
+
+				url: "https://localhost:44395/Car/GetModelsByMarka?markaId=" + getSelectedMarka(),
+				dataType: "json",
+				success: function (result) {
+					console.log(result);
+				},
+				error: function (req, status, error) {
+					console.log(status);
+				}
+			})
+		}
+
+		function getSelectedMarka() {
+			var selectedValue = document.getElementById("selectMarka").value;
+			return selectedValue;
+		}
+	</script>
+}

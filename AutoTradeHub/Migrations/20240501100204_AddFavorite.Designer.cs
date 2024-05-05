@@ -3,6 +3,7 @@ using System;
 using AutoTradeHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutoTradeHub.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240501100204_AddFavorite")]
+    partial class AddFavorite
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,7 +191,10 @@ namespace AutoTradeHub.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("AppUserId1")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -197,7 +203,7 @@ namespace AutoTradeHub.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AppUserId1");
 
                     b.HasIndex("CarId");
 
@@ -441,7 +447,7 @@ namespace AutoTradeHub.Migrations
                 {
                     b.HasOne("AutoTradeHub.Models.AppUser", "AppUser")
                         .WithMany("Favorites")
-                        .HasForeignKey("AppUserId")
+                        .HasForeignKey("AppUserId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

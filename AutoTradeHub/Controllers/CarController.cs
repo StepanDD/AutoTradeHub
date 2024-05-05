@@ -121,5 +121,19 @@ namespace AutoTradeHub.Controllers
             _carRepository.Delete(car);
             return RedirectToAction(actionName: "Index", controllerName: "Home");
         }
-    }
+
+        [HttpGet]
+        public async Task<JsonResult> GetModelsByMarka(int markaId)
+        {
+            var models = await _modelRepository.GetByMarkaAsync(markaId);
+            return new JsonResult(Ok(models));
+        }
+
+		[HttpGet]
+		public async Task<JsonResult> GetGenerationsByModel(string model)
+		{
+			var generations = await _generationRepository.GetByModelAsync(model);
+			return new JsonResult(Ok(generations));
+		}
+	}
 }

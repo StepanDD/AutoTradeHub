@@ -3,6 +3,7 @@ using System;
 using AutoTradeHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutoTradeHub.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240501093319_Test1")]
+    partial class Test1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,30 +181,6 @@ namespace AutoTradeHub.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("colors");
-                });
-
-            modelBuilder.Entity("AutoTradeHub.Models.Favorites", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("CarId");
-
-                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("AutoTradeHub.Models.Generation", b =>
@@ -437,25 +416,6 @@ namespace AutoTradeHub.Migrations
                     b.Navigation("Model");
                 });
 
-            modelBuilder.Entity("AutoTradeHub.Models.Favorites", b =>
-                {
-                    b.HasOne("AutoTradeHub.Models.AppUser", "AppUser")
-                        .WithMany("Favorites")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AutoTradeHub.Models.Car", "Car")
-                        .WithMany("Favorites")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Car");
-                });
-
             modelBuilder.Entity("AutoTradeHub.Models.Generation", b =>
                 {
                     b.HasOne("AutoTradeHub.Models.Model", "Model")
@@ -527,16 +487,6 @@ namespace AutoTradeHub.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("AutoTradeHub.Models.AppUser", b =>
-                {
-                    b.Navigation("Favorites");
-                });
-
-            modelBuilder.Entity("AutoTradeHub.Models.Car", b =>
-                {
-                    b.Navigation("Favorites");
                 });
 #pragma warning restore 612, 618
         }

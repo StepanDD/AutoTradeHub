@@ -73,6 +73,9 @@ namespace AutoTradeHub.Models
 		public string? AppUserId { get; set; }
 		public AppUser? AppUser { get; set; }
 
+		// Добавившие в избранное
+		public ICollection<Favorites> Favorites { get; set; }
+
 		public Car() { }
         public Car(CarVM carVM, int id = 0)
 		{

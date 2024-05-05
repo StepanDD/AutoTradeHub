@@ -40,8 +40,12 @@ namespace AutoTradeHub.Repository
         {
             return await _context.models.Include(a => a.Marka).Where(c => c.Marka.Name.Contains(marka)).ToListAsync();
         }
+		public async Task<IEnumerable<Model>> GetByMarkaAsync(int markaId)
+		{
+			return await _context.models.Include(a => a.Marka).Where(c => c.Marka.Id == markaId).ToListAsync();
+		}
 
-        public bool Save()
+		public bool Save()
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;

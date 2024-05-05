@@ -20,7 +20,7 @@ namespace AutoTradeHub.Controllers
         public async Task<IActionResult> Index()
         {
             IEnumerable<Car> cars = await _carRepository.GetAll();
-            return View(cars);
+			return View(cars);
         }
 
         public IActionResult Privacy()

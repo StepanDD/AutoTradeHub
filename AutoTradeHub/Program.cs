@@ -1,5 +1,6 @@
 using AutoTradeHub.Data;
 using AutoTradeHub.Interfaces;
+using AutoTradeHub.Middleware;
 using AutoTradeHub.Models;
 using AutoTradeHub.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -68,5 +69,7 @@ using(var scope = app.Services.CreateScope())
 			await roleManager.CreateAsync(new IdentityRole(role));
 	}
 }
+
+app.UseMiddleware<CookiePresetMiddleware>();
 
 app.Run();
