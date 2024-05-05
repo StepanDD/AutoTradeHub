@@ -9,17 +9,28 @@ namespace AutoTradeHub.Repository
 	{
 		private readonly AppDbContext _appDbContext;
 		private readonly IHttpContextAccessor _httpContextAccessor;
+		private readonly ICarRepository _carRepository;
 
-		public UserRepository(AppDbContext appDbContext, IHttpContextAccessor httpContextAccessor)
+		public UserRepository(AppDbContext appDbContext, IHttpContextAccessor httpContextAccessor,
+			ICarRepository carRepository)
         {
 			_appDbContext = appDbContext;
 			_httpContextAccessor = httpContextAccessor;
+			_carRepository = carRepository;
 		}
         public async Task<List<Car>> GetAllUserCars()
 		{
-			var user = _httpContextAccessor.HttpContext?.User;
-			var userCars = _appDbContext.cars.Where(r => r.AppUser.Id == user.ToString());
-			return userCars.ToList();
+			var userName = _httpContextAccessor.HttpContext?.User.Identity.Name.ToString();
+			AppUser user = await _appDbContext.Users.Include(r => r.Favorites).FirstOrDefaultAsync(i => i.UserName == userName);
+
+			List<Car> cars = new List<Car>();
+			foreach (Favorites favorite in user.Favorites)
+			{
+				Car car = await _carRepository.GetByIdAsync(favorite.CarId);
+				cars.Add(car);
+			}
+
+			return cars;
 		}
 
 		public async Task<AppUser> GetCurrentUser()

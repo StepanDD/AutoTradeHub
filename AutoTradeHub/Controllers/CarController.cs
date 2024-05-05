@@ -14,10 +14,12 @@ namespace AutoTradeHub.Controllers
         private readonly IGenerationRepository _generationRepository;
         private readonly IColorRepository _colorRepository;
 		private readonly IUserRepository _userRepository;
+		private readonly IFavoriteRepository _favoriteRepository;
 
 		public CarController(IMarkaRepository markaRepository, ICarRepository carRepository,
             IModelRepository modelRepository, IGenerationRepository generationRepository,
-            IColorRepository colorRepository, IUserRepository userRepository)
+            IColorRepository colorRepository, IUserRepository userRepository,
+            IFavoriteRepository favoriteRepository)
         {
             _carRepository = carRepository;
             _modelRepository = modelRepository;
@@ -25,6 +27,7 @@ namespace AutoTradeHub.Controllers
             _generationRepository = generationRepository;
             _colorRepository = colorRepository;
 			_userRepository = userRepository;
+			_favoriteRepository = favoriteRepository;
 		}
         public IActionResult Index()
         {
@@ -121,6 +124,15 @@ namespace AutoTradeHub.Controllers
             _carRepository.Delete(car);
             return RedirectToAction(actionName: "Index", controllerName: "Home");
         }
+
+		[Authorize]
+		[HttpGet]
+        public async Task<IActionResult> AddToFavorite(int carId)
+        {
+            var curUser = await _userRepository.GetCurrentUser();
+            _favoriteRepository.AddToFavorite(carId, curUser.Id);
+			return new JsonResult(Ok());
+		}
 
         [HttpGet]
         public async Task<JsonResult> GetModelsByMarka(int markaId)

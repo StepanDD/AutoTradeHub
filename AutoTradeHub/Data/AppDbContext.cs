@@ -14,14 +14,5 @@ namespace AutoTradeHub.Data
         public DbSet<Model> models { get; set; }
         public DbSet<Generation> generations { get; set; }
         public DbSet<Color> colors { get; set; }
-
-		//protected override void OnModelCreating(ModelBuilder modelBuilder)
-		//{
-		//	modelBuilder.Entity<Car>()
-		//			.HasMany(c => c.FavoriteUsers)
-		//			.WithMany(s => s.FavoriteCars)
-		//			.UsingEntity(j => j.ToTable("Favorites"));
-		//	base.OnModelCreating(modelBuilder);
-		//}
 	}
 }

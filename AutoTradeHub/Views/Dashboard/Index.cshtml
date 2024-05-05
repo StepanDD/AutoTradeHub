@@ -32,6 +32,29 @@
 					<p>@Model.AppUser.PhoneNumber</p>
 				</div>
 			</div>
+			<h4>Избранные объявления</h4>
+			<div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
+				@foreach (Car car in Model.UserCars)
+				{
+					<div class="col">
+						<a asp-controller="Car" asp-action="Detail" asp-route-id="@car.Id"
+						   style="text-decoration: none; color: black">
+							<div class="card">
+								<img src="\img\KIA RIO 2019.jpg" class="card-img-top"
+									 alt="Car Image" style="height: 216px; object-fit: cover;">
+								<div class="card-body">
+									<h5 class="card-title">
+										@car.Marka?.Name @car.Model?.Name @car.Year
+									</h5>
+									<p class="card-text">
+										@car.Price ₽
+									</p>
+								</div>
+							</div>
+						</a>
+					</div>
+				}
+			</div>
 		</div>
 	</div>
 </div>

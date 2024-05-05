@@ -40,7 +40,8 @@
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="GenerationId">Поколение</label>
-					<select asp-for="GenerationId" class="form-control" data-live-search="true">
+					<select asp-for="GenerationId" class="form-control" data-live-search="true"
+					onchange="aaa();">
 						@foreach (Generation generation in ViewBag.generations)
 						{
 							<option value="@generation.Id">@generation.Name</option>
@@ -185,6 +186,10 @@
 		function getSelectedMarka() {
 			var selectedValue = document.getElementById("selectMarka").value;
 			return selectedValue;
+		}
+
+		function aaa() {
+			alert("aaa");
 		}
 	</script>
 }
