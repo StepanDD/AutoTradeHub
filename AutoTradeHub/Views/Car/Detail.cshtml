@@ -42,15 +42,45 @@
 					<span class="visually-hidden">Next</span>
 				</button>
 			</div>
-			<div class="d-flex justify-content-between mt-4">
-				<button type="button" class="btn btn-outline-primary"
-						onclick="addToFavorite();">
-					Добавить в избранное
-				</button>
-				<button type="button" class="btn btn-outline-primary"
-				onclick="aaa();">Связаться с продавцом</button>
-				<button type="button" class="btn btn-outline-primary">Поделиться объявлением</button>
-			</div>
+
+			@if (User.Identity.IsAuthenticated)
+			{
+				<div class="d-flex justify-content-between mt-4">
+					@if (ViewBag.IsInFavorite == false)
+					{
+						<button type="button" class="btn btn-outline-primary"
+								onclick="favoriteButtonClick();" id="favoriteButton">
+							Добавить в избранное
+						</button>
+					}
+					else
+					{
+						<button type="button" class="btn btn-outline-danger"
+								onclick="favoriteButtonClick();" id="favoriteButton">
+							Удалить из избранного
+						</button>
+					}
+					<button type="button" class="btn btn-outline-primary disabled"
+							onclick="aaa();">
+						Связаться с продавцом
+					</button>
+					<button type="button" class="btn btn-outline-primary disabled">Поделиться объявлением</button>
+				</div>
+			}
+			else
+			{
+				<div class="d-flex justify-content-between mt-4 mb-3">
+					<a type="button" asp-controller="Account" asp-action="Login"
+					   class="btn btn-primary" style="width:49%">Войти</a>
+					<a type="button" asp-controller="Account" asp-action="Register"
+					   class="btn btn-outline-primary" style="width:49%">Зарегистрироваться</a>
+				</div>
+				<p>
+					Войдите в свой аккаунт, чтобы иметь возможность сохранять понравившиеся объявления, делиться ими
+					и контактировать с продавцами
+				</p>
+			}
+
 			@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
 			{
 				<div class="row mt-4">
@@ -115,11 +145,56 @@
 				dataType: "json",
 				success: function (result) {
 					console.log(result);
+					changeFavoriteButton();
 				},
 				error: function (req, status, error) {
-					alert("Необходимо авторизоваться!")
+					console.log(req, status, error);
 				}
 			})
+		}
+
+		function deleteFromFavorite() {
+			$.ajax({
+				type: "GET",
+				url: "https://localhost:44395/Car/DeleteFromFavorite?carId=" + @Convert.ToString(Model.Id),
+				dataType: "json",
+				success: function (result) {
+					console.log(result);
+					changeFavoriteButton();
+				},
+				error: function (req, status, error) {
+					console.log(req, status, error);
+				}
+			})
+		}
+
+		function favoriteButtonClick() {
+			if (document.getElementById("favoriteButton").className == "btn btn-outline-danger") {
+				deleteFromFavorite();
+			}
+			else {
+				addToFavorite();
+			}
+		}
+
+		function changeFavoriteButton() {
+			if (document.getElementById("favoriteButton").className == "btn btn-outline-danger") {
+				updateFavoriteButton("white");
+			}
+			else {
+				updateFavoriteButton("red");
+			}
+		}
+
+		function updateFavoriteButton(color) {
+			if (color == "red") {
+				document.getElementById("favoriteButton").innerHTML = "Удалить из избранного";
+				document.getElementById("favoriteButton").className = "btn btn-outline-danger";
+			}
+			else {
+				document.getElementById("favoriteButton").innerHTML = "Добавить в избранное";
+				document.getElementById("favoriteButton").className = "btn btn-outline-primary";
+			}
 		}
 
 		function aaa() {

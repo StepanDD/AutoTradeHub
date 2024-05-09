@@ -13,10 +13,11 @@
 			<div>
 				<img src="~/img/enot_ava.jpg" alt="Аватарка" class="img-thumbnail" />
 			</div>
-			<div class="d-grid gap-3">
-				<button type="button" class="btn btn-outline-primary">Разместить объявление</button>
-				<button type="button" class="btn btn-outline-primary">Редактировать профиль</button>
-				<button type="button" class="btn btn-outline-danger">Удалить аккаунт</button>
+			<div class="d-grid gap-3 mt-3">
+				<a type="button" asp-action="Create" asp-controller="Car" class="btn btn-outline-primary">
+					Разместить объявление</a>
+				<button type="button" class="btn btn-outline-primary disabled">Редактировать профиль</button>
+				<button type="button" class="btn btn-outline-danger disabled">Удалить аккаунт</button>
 			</div>
 		</div>
 		<div class="col">

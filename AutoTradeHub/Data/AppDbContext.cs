@@ -14,5 +14,6 @@ namespace AutoTradeHub.Data
         public DbSet<Model> models { get; set; }
         public DbSet<Generation> generations { get; set; }
         public DbSet<Color> colors { get; set; }
+        public DbSet<Favorites> favorites { get; set; }
 	}
 }

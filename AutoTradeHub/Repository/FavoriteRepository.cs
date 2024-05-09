@@ -21,14 +21,37 @@ namespace AutoTradeHub.Repository
 			return Save();
 		}
 
-		public bool DeleteFromFavorite(Favorites favorites)
+		public bool AddToFavorite(Favorites favorites)
 		{
-			throw new NotImplementedException();
+			_appDbContext.Add(favorites);
+			return Save();
 		}
 
-		public bool IsInFavorite(int carId, string userId)
+		public bool DeleteFromFavorite(Favorites favorites)
 		{
-			return false;
+			_appDbContext.Remove(favorites);
+			return Save();
+		}
+
+		public async Task<bool> DeleteFromFavorite(int carId, string userId)
+		{
+			Favorites favorites = await FindFavoritesAsync(carId, userId);
+			_appDbContext.Remove(favorites);
+			return Save();
+		}
+
+		public async Task<Favorites> FindFavoritesAsync(int carId, string userId)
+		{
+			return await _appDbContext.favorites.FirstOrDefaultAsync(i => i.CarId == carId && i.AppUserId == userId);
+			//return await _appDbContext.favorites.FirstAsync(i => i.CarId == carId && i.AppUserId == userId);
+		}
+
+		public async Task<bool> IsInFavorite(int carId, string userId)
+		{
+			Favorites favorites = await FindFavoritesAsync(carId, userId);
+			if (favorites == null)
+				return false;
+			return true;
 		}
 
 		public bool Save()

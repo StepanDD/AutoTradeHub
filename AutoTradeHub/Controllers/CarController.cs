@@ -37,6 +37,15 @@ namespace AutoTradeHub.Controllers
         {
             Car car = await _carRepository.GetByIdAsync(id);
             CarVM carVM = new CarVM(car);
+
+			var curUser = await _userRepository.GetCurrentUser();
+            if (curUser == null)
+                ViewBag.IsInFavorite = false;
+            else
+            {
+                bool isInFavorite = await _favoriteRepository.IsInFavorite(id, curUser.Id);
+                ViewBag.IsInFavorite = isInFavorite;
+            }
             return View(carVM);
         }
 
@@ -125,16 +134,26 @@ namespace AutoTradeHub.Controllers
             return RedirectToAction(actionName: "Index", controllerName: "Home");
         }
 
-		[Authorize]
+        [Authorize]
 		[HttpGet]
         public async Task<IActionResult> AddToFavorite(int carId)
         {
             var curUser = await _userRepository.GetCurrentUser();
-            _favoriteRepository.AddToFavorite(carId, curUser.Id);
+            if (curUser == null)
+				return new JsonResult(BadRequest());
+			_favoriteRepository.AddToFavorite(carId, curUser.Id);
+			return new JsonResult(Ok());
+		}
+		[Authorize]
+		[HttpGet]
+		public async Task<IActionResult> DeleteFromFavorite(int carId)
+		{
+			var curUser = await _userRepository.GetCurrentUser();
+            await _favoriteRepository.DeleteFromFavorite(carId, curUser.Id);
 			return new JsonResult(Ok());
 		}
 
-        [HttpGet]
+		[HttpGet]
         public async Task<JsonResult> GetModelsByMarka(int markaId)
         {
             var models = await _modelRepository.GetByMarkaAsync(markaId);

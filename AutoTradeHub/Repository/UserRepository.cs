@@ -13,12 +13,12 @@ namespace AutoTradeHub.Repository
 
 		public UserRepository(AppDbContext appDbContext, IHttpContextAccessor httpContextAccessor,
 			ICarRepository carRepository)
-        {
+		{
 			_appDbContext = appDbContext;
 			_httpContextAccessor = httpContextAccessor;
 			_carRepository = carRepository;
 		}
-        public async Task<List<Car>> GetAllUserCars()
+		public async Task<List<Car>> GetAllUserCars()
 		{
 			var userName = _httpContextAccessor.HttpContext?.User.Identity.Name.ToString();
 			AppUser user = await _appDbContext.Users.Include(r => r.Favorites).FirstOrDefaultAsync(i => i.UserName == userName);
@@ -35,8 +35,8 @@ namespace AutoTradeHub.Repository
 
 		public async Task<AppUser> GetCurrentUser()
 		{
-			string userName = _httpContextAccessor.HttpContext.User.Identity.Name.ToString();
-			AppUser user = await _appDbContext.Users.FirstOrDefaultAsync(i => i.UserName == userName);
+			string? userName = _httpContextAccessor.HttpContext?.User.Identity?.Name?.ToString();
+			AppUser? user = await _appDbContext.Users.FirstOrDefaultAsync(i => i.UserName == userName);
 			return user;
 		}
 	}
