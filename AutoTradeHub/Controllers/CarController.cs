@@ -53,8 +53,6 @@ namespace AutoTradeHub.Controllers
 		public async Task<IActionResult> Create()
         {
             ViewBag.marks = await _markaRepository.GetAll();
-            ViewBag.models = await _modelRepository.GetAll();
-            ViewBag.generations = await _generationRepository.GetAll();
             ViewBag.colors = await _colorRepository.GetAll();
             return View();
         }
@@ -66,8 +64,6 @@ namespace AutoTradeHub.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.marks = await _markaRepository.GetAll();
-                ViewBag.models = await _modelRepository.GetAll();
-                ViewBag.generations = await _generationRepository.GetAll();
                 ViewBag.colors = await _colorRepository.GetAll();
                 return View();
             }
@@ -161,9 +157,9 @@ namespace AutoTradeHub.Controllers
         }
 
 		[HttpGet]
-		public async Task<JsonResult> GetGenerationsByModel(string model)
+		public async Task<JsonResult> GetGenerationsByModel(int modelId)
 		{
-			var generations = await _generationRepository.GetByModelAsync(model);
+			var generations = await _generationRepository.GetByModelAsync(modelId);
 			return new JsonResult(Ok(generations));
 		}
 	}

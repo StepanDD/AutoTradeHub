@@ -6,7 +6,8 @@ namespace AutoTradeHub.Models
     public class Model
     {
         [Key]
-        public int Id { get; set; }
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
         public string Name { get; set; }
         [ForeignKey("marks")]
         public int MarkaId { get; set; }

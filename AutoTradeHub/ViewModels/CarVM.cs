@@ -35,18 +35,22 @@ namespace AutoTradeHub.ViewModels
 		public int Id { get; set; }
 
 		// Марка
+		[Required(ErrorMessage = "Выберите марку!")]
 		public int MarkaId { get; set; }
 		public Marka? Marka { get; set; }
 
 		// Модель
+		[Required(ErrorMessage = "Выберите модель!")]
 		public int ModelId { get; set; }
 		public Model? Model { get; set; }
 
 		// Поколение
+		[Required(ErrorMessage = "Выберите поколение!")]
 		public int GenerationId { get; set; }
 		public Generation? Generation { get; set; }
 
 		// Цвет
+		[Required(ErrorMessage = "Выберите цвет!")]
 		public int ColorId { get; set; }
 		public Color? Color { get; set; }
 

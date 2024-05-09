@@ -6,7 +6,8 @@ namespace AutoTradeHub.Models
     public class Generation
     {
         [Key]
-        public int Id { get; set; }
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
         public string Name { get; set; }
         [ForeignKey("models")]
         public int ModelId { get; set; }

@@ -160,7 +160,7 @@ namespace AutoTradeHub.Migrations
 
                     b.HasIndex("ModelId");
 
-                    b.ToTable("cars");
+                    b.ToTable("cars", (string)null);
                 });
 
             modelBuilder.Entity("AutoTradeHub.Models.Color", b =>
@@ -177,7 +177,7 @@ namespace AutoTradeHub.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("colors");
+                    b.ToTable("colors", (string)null);
                 });
 
             modelBuilder.Entity("AutoTradeHub.Models.Favorites", b =>
@@ -200,7 +200,7 @@ namespace AutoTradeHub.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.ToTable("favorites");
+                    b.ToTable("favorites", (string)null);
                 });
 
             modelBuilder.Entity("AutoTradeHub.Models.Generation", b =>
@@ -222,7 +222,7 @@ namespace AutoTradeHub.Migrations
 
                     b.HasIndex("ModelId");
 
-                    b.ToTable("generations");
+                    b.ToTable("generations", (string)null);
                 });
 
             modelBuilder.Entity("AutoTradeHub.Models.Marka", b =>
@@ -238,7 +238,7 @@ namespace AutoTradeHub.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("marks");
+                    b.ToTable("marks", (string)null);
                 });
 
             modelBuilder.Entity("AutoTradeHub.Models.Model", b =>
@@ -260,7 +260,7 @@ namespace AutoTradeHub.Migrations
 
                     b.HasIndex("MarkaId");
 
-                    b.ToTable("models");
+                    b.ToTable("models", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

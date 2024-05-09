@@ -16,7 +16,8 @@
 				<div class="form-group">
 					<label asp-for="MarkaId">Марка</label>
 					<select asp-for="MarkaId" id="selectMarka" class="form-control" data-live-search="true"
-					onchange="updateModelList();">
+							onchange="updateModelList();">
+						<option value="notSelected" selected="true" disabled="true">------Выберите марку------</option>
 						@foreach (Marka marka in ViewBag.marks)
 						{
 							<option value="@marka.Id">@marka.Name</option>
@@ -28,11 +29,8 @@
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="ModelId">Модель</label>
-					<select asp-for="ModelId" class="form-control" data-live-search="true">
-						@foreach (Model mmodel in ViewBag.models)
-						{
-							<option value="@mmodel.Id">@mmodel.Name</option>
-						}
+					<select required="true" disabled="true" asp-for="ModelId" class="form-control"
+					data-live-search="true" id="selectModel" onchange="updateGenerationList();">
 					</select>
 					<span asp-validation-for="ModelId" class="text-danger"></span>
 				</div>
@@ -40,12 +38,8 @@
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="GenerationId">Поколение</label>
-					<select asp-for="GenerationId" class="form-control" data-live-search="true"
-					onchange="aaa();">
-						@foreach (Generation generation in ViewBag.generations)
-						{
-							<option value="@generation.Id">@generation.Name</option>
-						}
+					<select asp-for="GenerationId" required="true" disabled="true" class="form-control"
+					data-live-search="true" id="selectGeneration">
 					</select>
 					<span asp-validation-for="GenerationId" class="text-danger"></span>
 				</div>
@@ -71,7 +65,7 @@
 				<div class="form-group">
 					<label asp-for="BodyType">Тип кузова</label>
 					<select asp-for="BodyType" class="form-control" data-live-search="true"
-					asp-items="@Html.GetEnumSelectList<BodyType>()">
+							asp-items="@Html.GetEnumSelectList<BodyType>()">
 					</select>
 					<span asp-validation-for="BodyType" class="text-danger"></span>
 				</div>
@@ -167,15 +161,25 @@
 </div>
 @section Scripts {
 	<script>
-		function updateModelList()
-		{
+		function updateModelList() {
 			$.ajax({
 				type: "GET",
 
 				url: "https://localhost:44395/Car/GetModelsByMarka?markaId=" + getSelectedMarka(),
 				dataType: "json",
 				success: function (result) {
-					console.log(result);
+					let models = result["value"];
+					var selector = document.getElementById("selectModel");
+					selector.disabled = false;
+					removeAll(selector);
+					let optionList = selector.options;
+					let options = models;
+					options.forEach(option =>
+						optionList.add(
+							new Option(option.name, option.id, false)
+						)
+					);
+					updateGenerationList();
 				},
 				error: function (req, status, error) {
 					console.log(status);
@@ -186,6 +190,42 @@
 		function getSelectedMarka() {
 			var selectedValue = document.getElementById("selectMarka").value;
 			return selectedValue;
+		}
+
+		function updateGenerationList() {
+			$.ajax({
+				type: "GET",
+
+				url: "https://localhost:44395/Car/GetGenerationsByModel?modelId=" + getSelectedModel(),
+				dataType: "json",
+				success: function (result) {
+					let generations = result["value"];
+					var selector = document.getElementById("selectGeneration");
+					selector.disabled = false;
+					removeAll(selector);
+					let optionList = selector.options;
+					let options = generations;
+					options.forEach(option =>
+						optionList.add(
+							new Option(option.name, option.id, false)
+						)
+					);
+				},
+				error: function (req, status, error) {
+					console.log(status);
+				}
+			})
+		}
+
+		function getSelectedModel() {
+			var selectedValue = document.getElementById("selectModel").value;
+			return selectedValue;
+		}
+
+		function removeAll(selectBox) {
+			while (selectBox.options.length > 0) {
+				selectBox.remove(0);
+			}
 		}
 
 		function aaa() {
