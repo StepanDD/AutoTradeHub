@@ -15,11 +15,14 @@ namespace AutoTradeHub.Controllers
         private readonly IColorRepository _colorRepository;
 		private readonly IUserRepository _userRepository;
 		private readonly IFavoriteRepository _favoriteRepository;
+		private readonly IPhotoRepository _photoRepository;
+		private readonly IPhotoService _photoService;
 
 		public CarController(IMarkaRepository markaRepository, ICarRepository carRepository,
             IModelRepository modelRepository, IGenerationRepository generationRepository,
             IColorRepository colorRepository, IUserRepository userRepository,
-            IFavoriteRepository favoriteRepository)
+            IFavoriteRepository favoriteRepository, IPhotoRepository photoRepository,
+            IPhotoService photoService)
         {
             _carRepository = carRepository;
             _modelRepository = modelRepository;
@@ -28,6 +31,8 @@ namespace AutoTradeHub.Controllers
             _colorRepository = colorRepository;
 			_userRepository = userRepository;
 			_favoriteRepository = favoriteRepository;
+			_photoRepository = photoRepository;
+			_photoService = photoService;
 		}
         public IActionResult Index()
         {
@@ -37,7 +42,11 @@ namespace AutoTradeHub.Controllers
         {
             Car car = await _carRepository.GetByIdAsync(id);
             CarVM carVM = new CarVM(car);
-
+            IEnumerable<Photo> photos = await _photoRepository.GetByCarAsync(id);
+			foreach (var photo in photos)
+            {
+                carVM.PhotosPath.Add(carVM.NormalizePath(photo.Path));
+            }
 			var curUser = await _userRepository.GetCurrentUser();
             if (curUser == null)
                 ViewBag.IsInFavorite = false;
@@ -71,8 +80,10 @@ namespace AutoTradeHub.Controllers
             }
             carVM.AppUser = await _userRepository.GetCurrentUser();
             carVM.AppUserId = carVM.AppUser.Id;
+            carVM.MainPhotoPath = await _photoService.SavePhoto(carVM.MainPhoto);
             Car newCar = new Car(carVM);
             _carRepository.Add(newCar);
+            await _photoService.SavePhotos(carVM.Photos, newCar.Id, _photoRepository);
 			return RedirectToAction(actionName: "Index", controllerName: "Home");
 		}
 

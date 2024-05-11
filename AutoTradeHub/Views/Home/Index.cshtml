@@ -1,4 +1,5 @@
-﻿@model List<Car>
+﻿@using AutoTradeHub.ViewModels
+@model List<CarVM>
 
 @{
 	ViewData["Title"] = "Home Page";
@@ -35,13 +36,13 @@
 	<div class="album py-5 bg-body-tertiary">
 		<div class="container">
 			<div class="row row-cols-1 row-cols-md-3 g-4">
-				@foreach (Car car in Model)
+				@foreach (CarVM car in Model)
 				{
 					<div class="col">
 						<a asp-controller="Car" asp-action="Detail" asp-route-id="@car.Id"
 						   style="text-decoration: none; color: black">
 							<div class="card">
-								<img src="\img\KIA RIO 2019.jpg" class="card-img-top"
+								<img src="~/@car.MainPhotoPath" class="card-img-top"
 									 alt="Car Image" style="height: 300px; object-fit: cover;">
 								<div class="card-body">
 									<h5 class="card-title">
@@ -55,22 +56,6 @@
 						</a>
 					</div>
 				}
-				<div class="col">
-					<a style="text-decoration: none; color: black">
-						<div class="card">
-							<img src="\img\bmw-m2-cs-2020.jpg" class="card-img-top"
-							alt="Car Image" style="height: 300px; object-fit: cover;">
-							<div class="card-body">
-								<h5 class="card-title">
-									BMW M2 2019
-								</h5>
-								<p class="card-text">
-									6 000 000 ₽
-								</p>
-							</div>
-						</div>
-					</a>
-				</div>
 			</div>
 		</div>
 	</div>

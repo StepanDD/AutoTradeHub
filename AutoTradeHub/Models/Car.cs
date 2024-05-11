@@ -76,6 +76,9 @@ namespace AutoTradeHub.Models
 		// Добавившие в избранное
 		public ICollection<Favorites> Favorites { get; set; }
 
+		// Главная фотография
+		public string? Path { get; set; }
+
 		public Car() { }
         public Car(CarVM carVM, int id = 0)
 		{
@@ -101,6 +104,7 @@ namespace AutoTradeHub.Models
 			this.Probeg = carVM.Probeg;
 			this.AppUser = carVM.AppUser;
 			this.AppUserId = carVM.AppUserId;
+			this.Path = carVM.MainPhotoPath;
 		}
 	}
 }

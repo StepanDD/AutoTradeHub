@@ -31,6 +31,8 @@ namespace AutoTradeHub.ViewModels
 			this.Probeg = car.Probeg;
 			this.AppUser = car.AppUser;
 			this.AppUserId = car.AppUserId;
+			this.MainPhotoPath = NormalizePath(car.Path);
+			this.PhotosPath = new List<string>();
 		}
 		public int Id { get; set; }
 
@@ -95,5 +97,20 @@ namespace AutoTradeHub.ViewModels
 
 		public string? AppUserId { get; set; }
 		public AppUser? AppUser { get; set; }
+
+		public IFormFile MainPhoto { get; set; }
+		public string? MainPhotoPath { get; set; }
+		public IEnumerable<IFormFile> Photos { get; set; }
+		public List<string> PhotosPath { get; set; }
+
+
+
+		public string NormalizePath(string oldPath)
+		{
+			if (string.IsNullOrEmpty(oldPath))
+				return "";
+			string newPath = oldPath.Remove(0, 8);
+			return newPath;
+		}
 	}
 }

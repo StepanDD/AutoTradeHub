@@ -1,7 +1,9 @@
 using AutoTradeHub.Data;
 using AutoTradeHub.Interfaces;
 using AutoTradeHub.Models;
+using AutoTradeHub.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace AutoTradeHub.Controllers
@@ -20,12 +22,18 @@ namespace AutoTradeHub.Controllers
         public async Task<IActionResult> Index()
         {
             IEnumerable<Car> cars = await _carRepository.GetAll();
-			return View(cars);
+            List<CarVM> carsVM = new List<CarVM>();
+            foreach (Car car in cars)
+            {
+                CarVM carVM = new CarVM(car);
+                carsVM.Add(carVM);
+			}
+			return View(carsVM);
         }
 
         public IActionResult Privacy()
         {
-            return View();
+			return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
