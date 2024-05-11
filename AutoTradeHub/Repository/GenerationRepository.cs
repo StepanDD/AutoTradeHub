@@ -37,12 +37,12 @@ namespace AutoTradeHub.Repository
 
         public async Task<IEnumerable<Generation>> GetByModelAsync(string model)
         {
-            return await _context.generations.Include(a => a.Model).Where(c => c.Model.Name.Contains(model)).ToListAsync();
+            return await _context.generations.Include(a => a.Model).Where(c => c.Model.Name.Contains(model)).OrderBy(s => s.Name).ToListAsync();
         }
 
 		public async Task<IEnumerable<Generation>> GetByModelAsync(int modelId)
 		{
-			return await _context.generations.Include(a => a.Model).Where(c => c.Model.Id == modelId).ToListAsync();
+			return await _context.generations.Include(a => a.Model).Where(c => c.Model.Id == modelId).OrderBy(s => s.Name).ToListAsync();
 		}
 
 		public bool Save()

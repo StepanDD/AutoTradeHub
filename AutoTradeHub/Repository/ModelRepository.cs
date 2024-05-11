@@ -38,11 +38,11 @@ namespace AutoTradeHub.Repository
 
         public async Task<IEnumerable<Model>> GetByMarkaAsync(string marka)
         {
-            return await _context.models.Include(a => a.Marka).Where(c => c.Marka.Name.Contains(marka)).ToListAsync();
+            return await _context.models.Include(a => a.Marka).Where(c => c.Marka.Name.Contains(marka)).OrderBy(s => s.Name).ToListAsync();
         }
 		public async Task<IEnumerable<Model>> GetByMarkaAsync(int markaId)
 		{
-			return await _context.models.Include(a => a.Marka).Where(c => c.Marka.Id == markaId).ToListAsync();
+			return await _context.models.Include(a => a.Marka).Where(c => c.Marka.Id == markaId).OrderBy(s => s.Name).ToListAsync();
 		}
 
 		public bool Save()

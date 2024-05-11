@@ -54,6 +54,7 @@ namespace AutoTradeHub.Controllers
         {
             ViewBag.marks = await _markaRepository.GetAll();
             ViewBag.colors = await _colorRepository.GetAll();
+            ViewBag.IsFirst = true;
             return View();
         }
 
@@ -65,7 +66,8 @@ namespace AutoTradeHub.Controllers
             {
                 ViewBag.marks = await _markaRepository.GetAll();
                 ViewBag.colors = await _colorRepository.GetAll();
-                return View();
+				ViewBag.IsFirst = false;
+				return View();
             }
             carVM.AppUser = await _userRepository.GetCurrentUser();
             carVM.AppUserId = carVM.AppUser.Id;

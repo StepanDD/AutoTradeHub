@@ -43,7 +43,6 @@ namespace AutoTradeHub.Repository
 		public async Task<Favorites> FindFavoritesAsync(int carId, string userId)
 		{
 			return await _appDbContext.favorites.FirstOrDefaultAsync(i => i.CarId == carId && i.AppUserId == userId);
-			//return await _appDbContext.favorites.FirstAsync(i => i.CarId == carId && i.AppUserId == userId);
 		}
 
 		public async Task<bool> IsInFavorite(int carId, string userId)
