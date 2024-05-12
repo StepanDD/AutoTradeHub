@@ -10,12 +10,13 @@
 @{
 }
 <div class="container mt-4">
-	<form method="post" asp-action="Edit">
+	<form method="post" asp-action="Edit" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="MarkaId">Марка</label>
-					<select asp-for="MarkaId" id="selectMarka" class="form-control" data-live-search="true">
+					<select asp-for="MarkaId" id="selectMarka" class="form-control" data-live-search="true"
+							onchange="updateModelList();" required="true">
 						@foreach (Marka marka in ViewBag.marks)
 						{
 							<option value="@marka.Id">@marka.Name</option>
@@ -27,11 +28,8 @@
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="ModelId">Модель</label>
-					<select asp-for="ModelId" class="form-control" data-live-search="true">
-						@foreach (Model mmodel in ViewBag.models)
-						{
-							<option value="@mmodel.Id">@mmodel.Name</option>
-						}
+					<select required="true" asp-for="ModelId" class="form-control"
+							data-live-search="true" id="selectModel" onchange="updateGenerationList();saveSelectedModel();">
 					</select>
 					<span asp-validation-for="ModelId" class="text-danger"></span>
 				</div>
@@ -39,11 +37,8 @@
 			<div class="col">
 				<div class="form-group">
 					<label asp-for="GenerationId">Поколение</label>
-					<select asp-for="GenerationId" class="form-control" data-live-search="true">
-						@foreach (Generation generation in ViewBag.generations)
-						{
-							<option value="@generation.Id">@generation.Name</option>
-						}
+					<select asp-for="GenerationId" class="form-control"
+							data-live-search="true" id="selectGeneration" onchange="saveSelectedGeneration();">
 					</select>
 					<span asp-validation-for="GenerationId" class="text-danger"></span>
 				</div>
@@ -149,27 +144,48 @@
 					<span asp-validation-for="ColorId" class="text-danger"></span>
 				</div>
 			</div>
-
 		</div>
-
+		<div class="row">
+			<div class="mb-3 col">
+				<label asp-for="MainPhoto" class="form-label">Заменить заглавную фотографию</label>
+				<input asp-for="MainPhoto" class="form-control" type="file" id="formFile"
+					   accept="image/png, image/jpeg, image/jpg">
+			</div>
+			<div class="mb-3 col">
+				<label asp-for="Photos" class="form-label">Заменить дополнительные фотографии</label>
+				<input asp-for="Photos" class="form-control" type="file" id="formFileMultiple" multiple
+					   accept="image/png, image/jpeg, image/jpg">
+			</div>
+		</div>
 		<div class="form-group mb-3">
 			<label asp-for="Description">Описание</label>
-			<textarea asp-for="Description" class="form-control" rows="7"></textarea>
+			<textarea asp-for="Description" class="form-control" rows="5"></textarea>
 			<span asp-validation-for="Description" class="text-danger"></span>
 		</div>
 
 		<button type="submit" class="btn btn-primary">
 			Сохранить изменения
 		</button>
-		<a asp-controller="Car" asp-action="Detail" asp-route-id="@Model.Id" class="btn btn-secondary">
+		<a asp-controller="Dashboard" asp-action="MyAds" class="btn btn-secondary">
 			Отмена
 		</a>
+		<input asp-for="AppUserId" hidden/>
+		<input asp-for="Path" hidden/>
 	</form>
 </div>
-<script>
-	function getSelectedMarka() {
-		var selectedValue = document.getElementById("selectMarka").value;
-		return selectedValue;
-	}
-</script>
+@section Scripts {
+	<script src="~/js/CreateCar.js"></script>
+	<script>
+		window.onload = function () {
+			var marka = getSelectedMarka();
+			if (marka != "notSelected") {
+				updateModelList();
+				sessionStorage.setItem("selectedModelId", @ViewBag.model);
+				selectOptionModel();
+				sessionStorage.setItem("selectedGenerationId", @ViewBag.generation);
+				selectOptionGeneration();
+			}
+		}
+	</script>
+}
 

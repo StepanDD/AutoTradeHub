@@ -104,7 +104,7 @@ namespace AutoTradeHub.Models
 			this.Probeg = carVM.Probeg;
 			this.AppUser = carVM.AppUser;
 			this.AppUserId = carVM.AppUserId;
-			this.Path = carVM.MainPhotoPath;
+			this.Path = carVM.Path;
 		}
 	}
 }

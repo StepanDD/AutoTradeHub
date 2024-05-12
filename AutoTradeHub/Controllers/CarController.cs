@@ -76,11 +76,11 @@ namespace AutoTradeHub.Controllers
                 ViewBag.marks = await _markaRepository.GetAll();
                 ViewBag.colors = await _colorRepository.GetAll();
 				ViewBag.IsFirst = false;
-				return View();
+				return View(carVM);
             }
             carVM.AppUser = await _userRepository.GetCurrentUser();
             carVM.AppUserId = carVM.AppUser.Id;
-            carVM.MainPhotoPath = await _photoService.SavePhoto(carVM.MainPhoto);
+            carVM.Path = await _photoService.SavePhoto(carVM.MainPhoto);
             Car newCar = new Car(carVM);
             _carRepository.Add(newCar);
             await _photoService.SavePhotos(carVM.Photos, newCar.Id, _photoRepository);
@@ -90,32 +90,53 @@ namespace AutoTradeHub.Controllers
 		[Authorize]
 		public async Task<IActionResult> Edit(int id)
         {
-            Car car = await _carRepository.GetByIdAsync(id);
-            if (car == null)
-            {
-                return View("Error");
-            }
-            ViewBag.marks = await _markaRepository.GetAll();
-            ViewBag.models = await _modelRepository.GetAll();
-            ViewBag.generations = await _generationRepository.GetAll();
+			var curUser = await _userRepository.GetCurrentUser();
+			Car car = await _carRepository.GetByIdAsync(id);
+			if (car == null || curUser == null)
+			{
+				return View("Error");
+			}
+			if (car.AppUserId != curUser.Id)
+			{
+				return View("Error");
+			}
+			ViewBag.marks = await _markaRepository.GetAll();
+            ViewBag.model = car.ModelId;
+            ViewBag.generation = car.GenerationId;
             ViewBag.colors = await _colorRepository.GetAll();
-            var carVM = new CarVM(car);
+			var carVM = new CarVM(car);
             return View(carVM);
         }
 
 		[Authorize]
 		[HttpPost]
-        public async Task<IActionResult> Edit(int id, CarVM carVM)
+        public async Task<IActionResult> Edit(CarVM carVM)
         {
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Ошибка");
-                return View(carVM);
+				ViewBag.marks = await _markaRepository.GetAll();
+				ViewBag.colors = await _colorRepository.GetAll();
+				return View(carVM);
             }
-            var car = new Car(carVM, id);
-            _carRepository.Update(car);
-            return RedirectToAction(actionName: "Detail", routeValues: new { id = id });
-        }
+			if (carVM.MainPhoto != null)
+			{
+				carVM.Path = await _photoService.SavePhoto(carVM.MainPhoto);
+			}
+
+			var curUser = await _userRepository.GetCurrentUser();
+			var car = new Car(carVM, carVM.Id);
+			if (car.AppUserId != curUser.Id)
+			{
+				return View("Error");
+			}
+			_carRepository.Update(car);
+			if (carVM.Photos != null)
+			{ // Сделать удаление прошлых фотографий!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				await _photoService.SavePhotos(carVM.Photos, car.Id, _photoRepository);
+			}
+			return RedirectToAction(actionName: "MyAds", controllerName: "Dashboard");
+		}
 
 		[Authorize]
 		public async Task<IActionResult> Delete(int id)
