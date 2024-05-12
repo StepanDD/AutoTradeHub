@@ -87,7 +87,7 @@ namespace AutoTradeHub.Controllers
 			return RedirectToAction(actionName: "Index", controllerName: "Home");
 		}
 
-		[Authorize(Roles = "Admin")]
+		[Authorize]
 		public async Task<IActionResult> Edit(int id)
         {
             Car car = await _carRepository.GetByIdAsync(id);
@@ -103,7 +103,7 @@ namespace AutoTradeHub.Controllers
             return View(carVM);
         }
 
-		[Authorize(Roles = "Admin")]
+		[Authorize]
 		[HttpPost]
         public async Task<IActionResult> Edit(int id, CarVM carVM)
         {
@@ -117,30 +117,39 @@ namespace AutoTradeHub.Controllers
             return RedirectToAction(actionName: "Detail", routeValues: new { id = id });
         }
 
-		[Authorize(Roles = "Admin")]
+		[Authorize]
 		public async Task<IActionResult> Delete(int id)
         {
-            Car car = await _carRepository.GetByIdAsync(id);
-            if (car == null)
+			var curUser = await _userRepository.GetCurrentUser();
+			Car car = await _carRepository.GetByIdAsync(id);
+            if (car == null || curUser == null)
             {
                 return View("Error");
             }
-            CarVM carVM = new CarVM(car);
-            return View(carVM);
-        }
+            if (car.AppUserId != curUser.Id)
+            {
+                return View("Error");
+			}
+			CarVM carVM = new CarVM(car);
+			return View(carVM);
+		}
 
-		[Authorize(Roles = "Admin")]
+		[Authorize]
 		[HttpPost]
         public async Task<IActionResult> Delete(CarVM carVM)
         {
-            if (!ModelState.IsValid)
+			if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Ошибка");
-                return View(carVM);
-            }
-            var car = new Car(carVM, carVM.Id);
-            _carRepository.Delete(car);
-            return RedirectToAction(actionName: "Index", controllerName: "Home");
+                return View("Error");
+			}
+            var curUser = await _userRepository.GetCurrentUser();
+			var car = new Car(carVM, carVM.Id);
+			if (car.AppUserId != curUser.Id)
+			{
+				return View("Error");
+			}
+			_carRepository.Delete(car);
+            return RedirectToAction(actionName: "MyAds", controllerName: "Dashboard");
         }
 
         [Authorize]

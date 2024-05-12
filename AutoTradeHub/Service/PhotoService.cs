@@ -26,6 +26,8 @@ namespace AutoTradeHub.Service
 
 		public async Task<bool> SavePhotos(IEnumerable<IFormFile> files, int _carId, IPhotoRepository _photoRepository)
 		{
+			if (files == null)
+				return false;
 			foreach (var file in files)
 			{
 				Photo photo = new Photo()

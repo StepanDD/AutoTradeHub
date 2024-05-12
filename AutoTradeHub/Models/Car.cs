@@ -70,14 +70,14 @@ namespace AutoTradeHub.Models
 
 		// Собственник
 		[ForeignKey("AppUser")]
-		public string? AppUserId { get; set; }
+		public string AppUserId { get; set; }
 		public AppUser? AppUser { get; set; }
 
 		// Добавившие в избранное
-		public ICollection<Favorites> Favorites { get; set; }
+		public ICollection<Favorites>? Favorites { get; set; }
 
 		// Главная фотография
-		public string? Path { get; set; }
+		public string Path { get; set; }
 
 		public Car() { }
         public Car(CarVM carVM, int id = 0)

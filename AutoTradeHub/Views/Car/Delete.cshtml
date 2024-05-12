@@ -8,10 +8,13 @@
 }
 <div class="container mt-4">
 	<form method="post" asp-action="Delete">
+		<input asp-for="AppUserId" type="hidden" />
+		<input asp-for="Id" type="hidden" />
 		<button type="submit" class="btn btn-danger">
 			Удалить
 		</button>
-		<a asp-controller="Car" asp-action="Detail" asp-route-id="@Model.Id" class="btn btn-secondary">
+		<a asp-controller="Dashboard" asp-action="MyAds" class="btn btn-secondary">
 			Отмена
 		</a>
 	</form>
+</div>

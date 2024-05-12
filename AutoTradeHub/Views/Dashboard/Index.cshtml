@@ -16,6 +16,7 @@
 			<div class="d-grid gap-3 mt-3">
 				<a type="button" asp-action="Create" asp-controller="Car" class="btn btn-outline-primary">
 					Разместить объявление</a>
+				<a asp-action="MyAds" type="button" class="btn btn-outline-primary">Мои объявления</a>
 				<button type="button" class="btn btn-outline-primary disabled">Редактировать профиль</button>
 				<button type="button" class="btn btn-outline-danger disabled">Удалить аккаунт</button>
 			</div>
@@ -35,20 +36,20 @@
 			</div>
 			<h4>Избранные объявления</h4>
 			<div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
-				@foreach (Car car in Model.UserCars)
+				@foreach (CarVM car in Model.UserCars)
 				{
 					<div class="col">
 						<a asp-controller="Car" asp-action="Detail" asp-route-id="@car.Id"
 						   style="text-decoration: none; color: black">
 							<div class="card">
-								<img src="\img\KIA RIO 2019.jpg" class="card-img-top"
+								<img src="~/@car.MainPhotoPath" class="card-img-top"
 									 alt="Car Image" style="height: 216px; object-fit: cover;">
 								<div class="card-body">
 									<h5 class="card-title">
 										@car.Marka?.Name @car.Model?.Name @car.Year
 									</h5>
 									<p class="card-text">
-										@car.Price ₽
+										@car.TextPrice
 									</p>
 								</div>
 							</div>

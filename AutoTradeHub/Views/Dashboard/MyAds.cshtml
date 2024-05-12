@@ -1,0 +1,107 @@
+﻿@using AutoTradeHub.ViewModels
+@model List<CarVM>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="container">
+	<h1 class="mb-4">Ваши объявления</h1>
+	@foreach (CarVM car in Model)
+	{
+		string carouselId = "corousel" + Convert.ToString(car.Id);
+		<div class="card mb-4">
+			<div class="card-header">
+				<div class="d-flex justify-content-between">
+					<h2>@car.Marka?.Name @car.Model?.Name @car.Year</h2>
+					<h2>@car.TextPrice</h2>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col">
+						<div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
+							<div class="carousel-indicators">
+								<button type="button" data-bs-target="#@carouselId" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+								@for (int i = 1; i <= car.PhotosPath.Count; i++)
+								{
+									<button type="button" data-bs-target="#@carouselId" data-bs-slide-to="@i" aria-label="Slide @i+1"></button>
+								}
+							</div>
+							<div class="carousel-inner detail-carousel-inner">
+								<div class="carousel-item active" data-bs-interval="600000">
+									<img src="~/@car.MainPhotoPath" class="carousel-item-img d-block w-100" alt="Car image">
+								</div>
+								@foreach (string photoPath in car.PhotosPath)
+								{
+									<div class="carousel-item" data-bs-interval="600000">
+										<img src="~/@photoPath" class="carousel-item-img d-block w-100" alt="Car image">
+									</div>
+								}
+							</div>
+							<button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+						<div class="row mt-4">
+							<div class="col-6">
+								<div class="d-grid">
+									<a asp-controller="Car" asp-action="Edit" asp-route-id="@car.Id"
+									   type="button" class="btn btn-outline-primary">
+										Редактировать объявление
+									</a>
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="d-grid">
+									<a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id"
+									   type="button" class="btn btn-outline-danger">
+										Удалить объявление
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="row">
+							<div class="col-md-auto">
+								<p class="text-muted">Двигатель</p>
+								<p class="text-muted">Мощность</p>
+								<p class="text-muted">Коробка передач</p>
+								<p class="text-muted">Привод</p>
+								<p class="text-muted">Тип кузова</p>
+								<p class="text-muted">Цвет</p>
+								<p class="text-muted">Пробег</p>
+								<p class="text-muted">Руль</p>
+								<p class="text-muted">Поколение</p>
+							</div>
+							<div class="col">
+								<p>@car.EngineType , @car.EngineVolume л</p>
+								<p>@car.EnginePower л.с.</p>
+								<p>@car.Gearbox</p>
+								<p>@car.Privod</p>
+								<p>@car.BodyType</p>
+								<p>@car.Color?.Name</p>
+								<p>@car.Probeg км</p>
+								<p>@car.SteeringWheel</p>
+								<p>@car.Generation?.Name</p>
+							</div>
+							<div class="mt-4">
+								<p class="text-muted">Описание</p>
+								<p>@car.Description</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+

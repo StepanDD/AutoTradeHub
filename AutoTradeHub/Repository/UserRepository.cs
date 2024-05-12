@@ -18,6 +18,15 @@ namespace AutoTradeHub.Repository
 			_httpContextAccessor = httpContextAccessor;
 			_carRepository = carRepository;
 		}
+
+		public async Task<List<Car>> GetAllUserAds()
+		{
+			var userName = _httpContextAccessor.HttpContext?.User.Identity.Name.ToString();
+			AppUser user = await _appDbContext.Users.FirstOrDefaultAsync(i => i.UserName == userName);
+
+			return await _appDbContext.cars.Include(a => a.Color).Include(a => a.Generation).Include(a => a.Marka).Include(a => a.Model).Where(c => c.AppUserId == user.Id).ToListAsync();
+		}
+
 		public async Task<List<Car>> GetAllUserCars()
 		{
 			var userName = _httpContextAccessor.HttpContext?.User.Identity.Name.ToString();

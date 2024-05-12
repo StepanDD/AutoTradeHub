@@ -33,6 +33,7 @@ namespace AutoTradeHub.ViewModels
 			this.AppUserId = car.AppUserId;
 			this.MainPhotoPath = NormalizePath(car.Path);
 			this.PhotosPath = new List<string>();
+			this.TextPrice = NormalizePrice(this.Price, '₽');
 		}
 		public int Id { get; set; }
 
@@ -98,10 +99,11 @@ namespace AutoTradeHub.ViewModels
 		public string? AppUserId { get; set; }
 		public AppUser? AppUser { get; set; }
 
-		public IFormFile MainPhoto { get; set; }
+		public IFormFile? MainPhoto { get; set; }
 		public string? MainPhotoPath { get; set; }
-		public IEnumerable<IFormFile> Photos { get; set; }
-		public List<string> PhotosPath { get; set; }
+		public IEnumerable<IFormFile>? Photos { get; set; }
+		public List<string>? PhotosPath { get; set; }
+		public string? TextPrice { get; set; }
 
 
 
@@ -111,6 +113,29 @@ namespace AutoTradeHub.ViewModels
 				return "";
 			string newPath = oldPath.Remove(0, 8);
 			return newPath;
+		}
+		public string NormalizePrice(uint oldPrice, char MoneySymbol)
+		{
+			string TextPrice = Convert.ToString(oldPrice);
+			int count = 0;
+			int startIndexProbel = 0;
+			int countOfProbel = 0;
+			while (Price > 0)
+			{
+				Price = Price / 10;
+				count++;
+			}
+			if (count > 3)
+			{
+				countOfProbel = (count - 1) / 3;
+				startIndexProbel = count - 3 * countOfProbel;
+				for (int i = 0; i < countOfProbel; i++)
+				{
+					TextPrice = TextPrice.Insert(startIndexProbel + i * 3 + i, " ");
+				}
+			}
+			TextPrice = TextPrice + " " + MoneySymbol;
+			return TextPrice;
 		}
 	}
 }
