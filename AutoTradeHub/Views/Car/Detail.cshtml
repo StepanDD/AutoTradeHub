@@ -62,8 +62,8 @@
 							Удалить из избранного
 						</button>
 					}
-					<button type="button" class="btn btn-outline-primary disabled"
-							onclick="aaa();">
+					<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+							data-bs-target="#Contacts">
 						Связаться с продавцом
 					</button>
 					<button type="button" class="btn btn-outline-primary disabled">Поделиться объявлением</button>
@@ -132,6 +132,21 @@
 				<div class="mt-4">
 					<p class="text-muted">Описание</p>
 					<p>@Model.Description</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="Contacts" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Контактные данные продавца</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>@Model.AppUser.FirstName @Model.AppUser.LastName</p>
+					<p>Номер телефона: @Model.AppUser.PhoneNumber</p>
+					<p>Email: @Model.AppUser.Email</p>
 				</div>
 			</div>
 		</div>

@@ -124,7 +124,7 @@ namespace AutoTradeHub.Models
 			createdCar.EngineType = EngineType.Бензиновый;
 			createdCar.Privod = Privod.Передний;
 			createdCar.BodyType = BodyType.Седан;
-			createdCar.Probeg = Convert.ToUInt16(random.Next(100, 100000));
+			createdCar.Probeg = Convert.ToUInt32(random.Next(100, 100000));
 			createdCar.Path = "wwwroot/img/DefaultCar.png";
 			return createdCar;
 		}
