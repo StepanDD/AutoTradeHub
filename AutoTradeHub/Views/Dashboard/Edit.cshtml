@@ -1,0 +1,48 @@
+﻿@using AutoTradeHub.ViewModels
+@model UserVM
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="container mt-4">
+	<form method="post" asp-action="Edit" enctype="multipart/form-data">
+		<div class="row mb-4">
+			<div class="col-3">
+				<div>
+					<img src="~/@Model.NormalizePath(Model.PhotoPath)" alt="Аватарка" class="img-thumbnail" />
+				</div>
+			</div>
+			<div class="col-md-auto">
+				<p class="text-muted mb-4">Имя</p>
+				<p class="text-muted mb-4">Фамилия</p>
+				<p class="text-muted mb-4">Номер телефона</p>
+				<p class="text-muted mb-4">Адрес электронной почты</p>
+				<p class="text-muted mb-4">Фото профиля</p>
+			</div>
+			<div class="col">
+				<input asp-for="FirstName" class="form-control mb-2" placeholder="Имя">
+				<span asp-validation-for="FirstName" class="text-danger"></span>
+				<input asp-for="LastName" class="form-control mb-2" placeholder="Фамилия">
+				<span asp-validation-for="LastName" class="text-danger"></span>
+				<input asp-for="PhoneNumber" class="form-control mb-2" placeholder="Номер телефона">
+				<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+				<input asp-for="Email" class="form-control mb-2" placeholder="Адрес электронной почты">
+				<span asp-validation-for="Email" class="text-danger"></span>
+				<input asp-for="Photo" class="form-control" type="file" id="formFile"
+					   accept="image/png, image/jpeg, image/jpg">
+			</div>
+		</div>
+		<div>
+			<button type="submit" class="btn btn-primary">
+				Сохранить изменения
+			</button>
+			<a asp-controller="Dashboard" asp-action="Index" class="btn btn-secondary">
+				Отмена
+			</a>
+		</div>
+		<input asp-for="Id" hidden />
+	</form>
+</div>

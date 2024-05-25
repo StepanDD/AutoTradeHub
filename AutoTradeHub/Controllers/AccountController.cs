@@ -76,6 +76,8 @@ namespace AutoTradeHub.Controllers
 			{
 				Email = registerVM.Email,
 				UserName = registerVM.Email,
+				FirstName = "NewUser",
+				PhotoPath = "wwwroot/img/DefaultAva.jpg"
 			};
 			var newUserResponse = await _userManager.CreateAsync(newUser, registerVM.Password);
 			if (newUserResponse.Succeeded)

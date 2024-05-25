@@ -19,6 +19,18 @@ namespace AutoTradeHub.Repository
 			_carRepository = carRepository;
 		}
 
+		public bool Add(AppUser user)
+		{
+			_appDbContext.Users.Add(user);
+			return Save();
+		}
+
+		public bool Delete(AppUser user)
+		{
+			_appDbContext.Users.Remove(user);
+			return Save();
+		}
+
 		public async Task<List<Car>> GetAllUserAds()
 		{
 			var userName = _httpContextAccessor.HttpContext?.User.Identity.Name.ToString();
@@ -47,6 +59,18 @@ namespace AutoTradeHub.Repository
 			string? userName = _httpContextAccessor.HttpContext?.User.Identity?.Name?.ToString();
 			AppUser? user = await _appDbContext.Users.FirstOrDefaultAsync(i => i.UserName == userName);
 			return user;
+		}
+
+		public bool Save()
+		{
+			var saved = _appDbContext.SaveChanges();
+			return saved > 0 ? true : false;
+		}
+
+		public bool Update(AppUser user)
+		{
+			_appDbContext.Users.Update(user);
+			return Save();
 		}
 	}
 }

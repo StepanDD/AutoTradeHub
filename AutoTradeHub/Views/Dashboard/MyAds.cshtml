@@ -12,6 +12,7 @@
 	@foreach (CarVM car in Model)
 	{
 		string carouselId = "corousel" + Convert.ToString(car.Id);
+		string modalId = "modal" + Convert.ToString(car.Id);
 		<div class="card mb-4">
 			<div class="card-header">
 				<div class="d-flex justify-content-between">
@@ -61,10 +62,10 @@
 							</div>
 							<div class="col-6">
 								<div class="d-grid">
-									<a asp-controller="Car" asp-action="Delete" asp-route-id="@car.Id"
-									   type="button" class="btn btn-outline-danger">
+									<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+											data-bs-target="#@modalId">
 										Удалить объявление
-									</a>
+									</button>
 								</div>
 							</div>
 						</div>
@@ -102,6 +103,25 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">Вы уверены, что хотите удалить объявление?</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						Это действие невозможно отменить
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+						<a asp-controller="Car" asp-action="DeleteModal" asp-route-id="@car.Id" type="button" class="btn btn-danger">Удалить объявление</a>
+					</div>
+				</div>
+			</div>
+		</div>
 	}
+
+
 </div>
 

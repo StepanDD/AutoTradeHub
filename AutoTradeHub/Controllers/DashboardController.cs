@@ -3,6 +3,7 @@ using AutoTradeHub.Models;
 using AutoTradeHub.Repository;
 using AutoTradeHub.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoTradeHub.Controllers
@@ -12,11 +13,19 @@ namespace AutoTradeHub.Controllers
 	{
 		private readonly IUserRepository _userRepository;
 		private readonly IPhotoRepository _photoRepository;
+		private readonly IPhotoService _photoService;
+		private readonly UserManager<AppUser> _userManager;
+		private readonly SignInManager<AppUser> _signInManager;
 
-		public DashboardController(IUserRepository userRepository, IPhotoRepository photoRepository)
+		public DashboardController(IUserRepository userRepository, IPhotoRepository photoRepository,
+			IPhotoService photoService, UserManager<AppUser> userManager,
+			SignInManager<AppUser> signInManager)
         {
 			_userRepository = userRepository;
 			_photoRepository = photoRepository;
+			_photoService = photoService;
+			_userManager = userManager;
+			_signInManager = signInManager;
 		}
         public async Task<IActionResult> Index()
 		{
@@ -27,7 +36,7 @@ namespace AutoTradeHub.Controllers
 			{
 				carsVM.Add(new CarVM(car));
 			}
-			DashboardVM dashboardVM = new DashboardVM(curUser, carsVM);
+			DashboardVM dashboardVM = new DashboardVM(curUser, carsVM, new UserVM(curUser));
 			return View(dashboardVM);
 		}
 		public async Task<IActionResult> MyAds()
@@ -46,6 +55,40 @@ namespace AutoTradeHub.Controllers
 				carsVM.Add(carVM);
 			}
 			return View(carsVM);
+		}
+		public async Task<IActionResult> Edit()
+		{
+			var curUser = await _userRepository.GetCurrentUser();
+			return View(new UserVM(curUser));
+		}
+		[HttpPost]
+		public async Task<IActionResult> Edit(UserVM user)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(user);
+			}
+			var updatedUser = await _userRepository.GetCurrentUser();
+			if (user.Photo != null)
+			{
+				_photoService.DeletePhoto(updatedUser.PhotoPath);
+				updatedUser.PhotoPath = await _photoService.SavePhoto(user.Photo);
+			}
+			updatedUser.Email = user.Email;
+			updatedUser.FirstName = user.FirstName;
+			updatedUser.LastName = user.LastName;
+			updatedUser.PhoneNumber = user.PhoneNumber;
+			_userRepository.Update(updatedUser);
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete()
+		{
+			var curUser = await _userRepository.GetCurrentUser();
+			await _signInManager.SignOutAsync();
+			await _userManager.DeleteAsync(curUser);
+			return RedirectToAction(actionName: "Index", controllerName: "Home");
 		}
 	}
 }

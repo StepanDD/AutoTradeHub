@@ -11,6 +11,8 @@ namespace AutoTradeHub.Service
         public bool DeletePhoto(string fileName)
 		{
 			if (fileName == null) return false;
+			if (fileName.Contains("DefaultAva")) return false;
+			if (fileName.Contains("DefaultCar")) return false;
 			FileInfo fileInf = new FileInfo(fileName);
 			if (fileInf.Exists)
 			{

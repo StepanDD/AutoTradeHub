@@ -11,14 +11,15 @@
 	<div class="row">
 		<div class="col-3">
 			<div>
-				<img src="~/img/enot_ava.jpg" alt="Аватарка" class="img-thumbnail" />
+				<img src="~/@Model.UserVM.NormalizePath(Model.UserVM.PhotoPath)" alt="Аватарка" class="img-thumbnail" />
 			</div>
 			<div class="d-grid gap-3 mt-3">
 				<a type="button" asp-action="Create" asp-controller="Car" class="btn btn-outline-primary">
 					Разместить объявление</a>
 				<a asp-action="MyAds" type="button" class="btn btn-outline-primary">Мои объявления</a>
-				<button type="button" class="btn btn-outline-primary disabled">Редактировать профиль</button>
-				<button type="button" class="btn btn-outline-danger disabled">Удалить аккаунт</button>
+				<a asp-action="Edit" type="button" class="btn btn-outline-primary">Редактировать профиль</a>
+				<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+				data-bs-target="#DeleteModal">Удалить аккаунт</button>
 			</div>
 		</div>
 		<div class="col">
@@ -29,7 +30,7 @@
 					<p class="text-muted">Номер телефона</p>
 				</div>
 				<div class="col">
-					<p>@Model.AppUser.UserName</p>
+					<p>@Model.AppUser.FirstName @Model.AppUser.LastName</p>
 					<p>@Model.AppUser.Email</p>
 					<p>@Model.AppUser.PhoneNumber</p>
 				</div>
@@ -56,6 +57,26 @@
 						</a>
 					</div>
 				}
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Вы уверены, что хотите удалить свой аккаунт?</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					Это действие невозможно отменить
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+					<form method="post" asp-action="Delete">
+						<button type="submit" class="btn btn-danger">Удалить аккаунт</button>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>

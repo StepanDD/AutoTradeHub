@@ -177,6 +177,18 @@ namespace AutoTradeHub.Controllers
 			_photoService.DeletePhoto(carVM.Path);
 			return RedirectToAction(actionName: "MyAds", controllerName: "Dashboard");
         }
+		[Authorize, HttpGet]
+		public async Task<IActionResult> DeleteModal(int id)
+		{
+			AppUser curUser = await _userRepository.GetCurrentUser();
+			Car car = await _carRepository.GetByIdAsync(id);
+			if (car.AppUserId != curUser.Id)
+			{
+				return View("Error");
+			}
+			await _carRepository.DeleteById(id);
+			return RedirectToAction(actionName: "MyAds", controllerName: "Dashboard");
+		}
 
         [Authorize]
 		[HttpGet]
@@ -209,6 +221,16 @@ namespace AutoTradeHub.Controllers
 		{
 			var generations = await _generationRepository.GetByModelAsync(modelId);
 			return new JsonResult(Ok(generations));
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> CreateRandomCar()
+		{
+			AppUser curUser = await _userRepository.GetCurrentUser();
+			Car car = Car.CreateRandomCar();
+			car.AppUserId = curUser.Id;
+			_carRepository.Add(car);
+			return RedirectToAction(actionName: "Index", controllerName: "Home");
 		}
 	}
 }

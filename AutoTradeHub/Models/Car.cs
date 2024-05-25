@@ -106,5 +106,27 @@ namespace AutoTradeHub.Models
 			this.AppUserId = carVM.AppUserId;
 			this.Path = carVM.Path;
 		}
+		public static Car CreateRandomCar()
+		{
+			Random random = new Random();
+			Car createdCar = new Car();
+			createdCar.MarkaId = random.Next(1, 5);
+			createdCar.ModelId = random.Next(1, 5);
+			createdCar.GenerationId = random.Next(1, 5);
+			createdCar.ColorId = random.Next(1, 3);
+			createdCar.Price = Convert.ToUInt32(random.Next(1, 2000000));
+			createdCar.EngineVolume = random.Next(1, 10);
+			createdCar.EnginePower = Convert.ToUInt16(random.Next(1, 1000));
+			createdCar.SteeringWheel = SteeringWheel.Левый;
+			createdCar.Gearbox = GearBox.Автомат;
+			createdCar.Description = "типа описание";
+			createdCar.Year = Convert.ToUInt16(random.Next(1990, 2020));
+			createdCar.EngineType = EngineType.Бензиновый;
+			createdCar.Privod = Privod.Передний;
+			createdCar.BodyType = BodyType.Седан;
+			createdCar.Probeg = Convert.ToUInt16(random.Next(100, 100000));
+			createdCar.Path = "wwwroot/img/DefaultCar.png";
+			return createdCar;
+		}
 	}
 }
