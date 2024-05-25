@@ -25,6 +25,16 @@ namespace AutoTradeHub.Repository
 			return Save();
 		}
 
+		public async Task<bool> DeleteByCarAsync(int carId)
+		{
+			IEnumerable<Photo> photos = await GetByCarAsync(carId);
+			foreach (var photo in photos)
+			{
+				_context.Remove(photo);
+			}
+			return Save();
+		}
+
 		public async Task<IEnumerable<Photo>> GetByCarAsync(Car car)
 		{
 			return await _context.photos.Where(c => c.carId == car.Id).ToListAsync();

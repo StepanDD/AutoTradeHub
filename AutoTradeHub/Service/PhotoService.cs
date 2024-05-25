@@ -10,7 +10,31 @@ namespace AutoTradeHub.Service
 		private readonly string directoryPath = "wwwroot/photos";
         public bool DeletePhoto(string fileName)
 		{
-			throw new NotImplementedException();
+			if (fileName == null) return false;
+			FileInfo fileInf = new FileInfo(fileName);
+			if (fileInf.Exists)
+			{
+				fileInf.Delete();
+				return true;
+			}
+			return false;
+		}
+
+		public bool DeletePhotos(IEnumerable<string> fileNames)
+		{
+			foreach (string fileName in fileNames)
+			{
+				DeletePhoto(fileName);
+			}
+			return true;
+		}
+		public bool DeletePhotos(IEnumerable<Photo> photos)
+		{
+			foreach (Photo photo in photos)
+			{
+				DeletePhoto(photo.Path);
+			}
+			return true;
 		}
 
 		public async Task<string> SavePhoto(IFormFile file)

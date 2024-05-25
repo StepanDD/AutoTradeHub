@@ -1,6 +1,7 @@
 ﻿using AutoTradeHub.Data;
 using AutoTradeHub.Interfaces;
 using AutoTradeHub.Models;
+using AutoTradeHub.Service;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -10,10 +11,10 @@ namespace AutoTradeHub.Repository
     {
         private readonly AppDbContext _context;
 
-        public CarRepository(AppDbContext context)
+		public CarRepository(AppDbContext context)
         {
             _context = context;
-        }
+		}
         public bool Add(Car car)
         {
             _context.Add(car);
@@ -25,10 +26,11 @@ namespace AutoTradeHub.Repository
             _context.Remove(car);
             return Save();
         }
-        public bool DeleteById(int id)
+        public async Task<bool> DeleteById(int id)
         {
-            _context.Remove(GetByIdAsync(id));
-            return Save();
+            Car car = await GetByIdAsync(id);
+			_context.Remove(car);
+			return Save();
         }
 
         public async Task<IEnumerable<Car>> GetAll()

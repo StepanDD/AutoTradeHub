@@ -121,6 +121,7 @@ namespace AutoTradeHub.Controllers
             }
 			if (carVM.MainPhoto != null)
 			{
+                _photoService.DeletePhoto(carVM.Path);
 				carVM.Path = await _photoService.SavePhoto(carVM.MainPhoto);
 			}
 
@@ -132,7 +133,9 @@ namespace AutoTradeHub.Controllers
 			}
 			_carRepository.Update(car);
 			if (carVM.Photos != null)
-			{ // Сделать удаление прошлых фотографий!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			{
+                _photoService.DeletePhotos(await _photoRepository.GetByCarAsync(car));
+                await _photoRepository.DeleteByCarAsync(car.Id);
 				await _photoService.SavePhotos(carVM.Photos, car.Id, _photoRepository);
 			}
 			return RedirectToAction(actionName: "MyAds", controllerName: "Dashboard");
@@ -169,8 +172,10 @@ namespace AutoTradeHub.Controllers
 			{
 				return View("Error");
 			}
+			_photoService.DeletePhotos(await _photoRepository.GetByCarAsync(car));
 			_carRepository.Delete(car);
-            return RedirectToAction(actionName: "MyAds", controllerName: "Dashboard");
+			_photoService.DeletePhoto(carVM.Path);
+			return RedirectToAction(actionName: "MyAds", controllerName: "Dashboard");
         }
 
         [Authorize]

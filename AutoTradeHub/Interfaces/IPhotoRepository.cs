@@ -10,6 +10,7 @@ namespace AutoTradeHub.Interfaces
 		bool Add(Photo photo);
 		bool Update(Photo photo);
 		bool Delete(Photo photo);
+		Task<bool> DeleteByCarAsync(int carId);
 		bool Save();
 	}
 }
