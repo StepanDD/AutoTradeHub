@@ -54,6 +54,16 @@ namespace AutoTradeHub.Repository
 			return cars;
 		}
 
+		public async Task<List<AppUser>> GetAllUsers()
+		{
+			return await _appDbContext.Users.ToListAsync();
+		}
+
+		public async Task<AppUser> GetById(string id)
+		{
+			return await _appDbContext.Users.FirstOrDefaultAsync(i => i.Id == id);
+		}
+
 		public async Task<AppUser> GetCurrentUser()
 		{
 			string? userName = _httpContextAccessor.HttpContext?.User.Identity?.Name?.ToString();

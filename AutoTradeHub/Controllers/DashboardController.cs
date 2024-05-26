@@ -87,6 +87,7 @@ namespace AutoTradeHub.Controllers
 		{
 			var curUser = await _userRepository.GetCurrentUser();
 			await _signInManager.SignOutAsync();
+			_photoService.DeletePhoto(curUser.PhotoPath);
 			await _userManager.DeleteAsync(curUser);
 			return RedirectToAction(actionName: "Index", controllerName: "Home");
 		}

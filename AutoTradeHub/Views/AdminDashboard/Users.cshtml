@@ -1,7 +1,70 @@
 ﻿@using AutoTradeHub.ViewModels
-@model UserVM
+@model AdminDashboardVM
 
 
-@{
-    await Html.RenderPartialAsync("_AdminDashboardMainInfo");
-}
+<div class="container">
+	<div class="d-flex justify-content-start mt-4 mb-4">
+		<a asp-action="Users" type="button" class="btn btn-primary me-2"
+		   style="width: 300px">
+			Пользователи
+		</a>
+		<a asp-action="MMG" type="button" class="btn btn-outline-primary me-2"
+		   style="width: 300px">
+			Марки, модели, поколения
+		</a>
+		<a asp-action="Colors" type="button" class="btn btn-outline-primary"
+		   style="width: 300px">
+			Цвета
+		</a>
+	</div>
+
+	<table>
+		<tr>
+			<th>Id</th>
+			<th>UserName / Email</th>
+			<th>Имя</th>
+			<th>Фамилия</th>
+			<th>Номер телефона</th>
+			<th></th>
+		</tr>
+		@foreach (AppUser user in Model.AppUsers)
+		{
+			string modalId = "modal" + Convert.ToString(user.Id);
+			<tr>
+				<td>@user.Id</td>
+				<td>@user.UserName</td>
+				<td>@user.FirstName</td>
+				<td>@user.LastName</td>
+				<td>@user.PhoneNumber</td>
+				<td>
+					@if (user.Id != Model.UserVM.Id)
+					{
+						<button type="button" class="btn btn-danger" data-bs-toggle="modal"
+						   data-bs-target="#@modalId">
+							Забанить
+						</button>
+					}
+				</td>
+			</tr>
+			<div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">Вы уверены, что хотите забанить данного пользователя?</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							Это действие невозможно отменить
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+							<a asp-action="BanUser" asp-route-userId="@user.Id" type="button" class="btn btn-danger">Забанить</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</table>
+</div>
+
+

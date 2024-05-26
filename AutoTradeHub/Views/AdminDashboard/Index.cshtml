@@ -1,7 +1,20 @@
 ﻿@using AutoTradeHub.ViewModels
-@model UserVM
+@model AdminDashboardVM
 
 
-@{
-    await Html.RenderPartialAsync("_AdminDashboardMainInfo");
-}
+<div class="container">
+	<div class="d-flex justify-content-start mt-4 mb-4">
+		<a asp-action="Users" type="button" class="btn btn-outline-primary me-2"
+		   style="width: 300px">
+			Пользователи
+		</a>
+		<a asp-action="MMG" type="button" class="btn btn-outline-primary me-2"
+		   style="width: 300px">
+			Марки, модели, поколения
+		</a>
+		<a asp-action="Colors" type="button" class="btn btn-outline-primary"
+		   style="width: 300px">
+			Цвета
+		</a>
+	</div>
+</div>
