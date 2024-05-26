@@ -1,0 +1,37 @@
+﻿@using AutoTradeHub.ViewModels
+@model UserVM
+
+<div class="container mt-4">
+	<div class="row">
+		<div class="col-3">
+			<div>
+				<img src="~/@Model.NormalizePath(Model.PhotoPath)" alt="Аватарка" class="img-thumbnail" />
+			</div>
+			<div class="d-grid gap-3 mt-3">
+				<a asp-action="Users" type="button" class="btn btn-outline-primary">
+					Пользователи
+				</a>
+				<a asp-action="MMG" type="button" class="btn btn-outline-primary">
+					Марки, модели, поколения
+				</a>
+				<a asp-action="Colors" type="button" class="btn btn-outline-primary">
+					Цвета
+				</a>
+			</div>
+		</div>
+		<div class="col">
+			<div class="row">
+				<div class="col-md-auto">
+					<p class="text-muted">Имя</p>
+					<p class="text-muted">Email</p>
+					<p class="text-muted">Номер телефона</p>
+				</div>
+				<div class="col">
+					<p>@Model.FirstName @Model.LastName</p>
+					<p>@Model.Email</p>
+					<p>@Model.PhoneNumber</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
