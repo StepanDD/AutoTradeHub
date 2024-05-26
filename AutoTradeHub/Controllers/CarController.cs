@@ -54,6 +54,7 @@ namespace AutoTradeHub.Controllers
             {
                 bool isInFavorite = await _favoriteRepository.IsInFavorite(id, curUser.Id);
                 ViewBag.IsInFavorite = isInFavorite;
+				ViewBag.curUserId = curUser.Id;
             }
             return View(carVM);
         }

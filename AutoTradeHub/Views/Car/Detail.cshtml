@@ -66,7 +66,12 @@
 							data-bs-target="#Contacts">
 						Связаться с продавцом
 					</button>
-					<button type="button" class="btn btn-outline-primary disabled">Поделиться объявлением</button>
+					<button type="button" class="btn btn-outline-primary"
+					onclick="copyUrl();">Поделиться объявлением</button>
+				</div>
+				<div class="alert alert-primary mt-2 fade show alert-dismissible" role="alert" id="alertURL" hidden>
+					Ссылка скопирована в буфер обмена
+					<button type="button" onclick="closeAlert();" class="btn-close" aria-label="Close"></button>
 				</div>
 			}
 			else
@@ -83,7 +88,7 @@
 				</p>
 			}
 
-			@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+			@if (User.Identity.IsAuthenticated && ViewBag.curUserId == Model.AppUserId)
 			{
 				<div class="row mt-4">
 					<div class="col-6">
@@ -96,10 +101,10 @@
 					</div>
 					<div class="col-6">
 						<div class="d-grid">
-							<a asp-controller="Car" asp-action="Delete" asp-route-id="@Model.Id"
+							<button data-bs-toggle="modal" data-bs-target="#DeleteModal"
 							   type="button" class="btn btn-outline-danger">
 								Удалить объявление
-							</a>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -152,6 +157,24 @@
 		</div>
 	</div>
 </div>
+<div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Вы уверены, что хотите удалить объявление?</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Это действие невозможно отменить
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+				<a asp-controller="Car" asp-action="DeleteModal" asp-route-id="@Model.Id" type="button" class="btn btn-danger">Удалить объявление</a>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 @section Scripts {
 	<script>
@@ -216,6 +239,15 @@
 
 		function aaa() {
 			alert("aaa");
+		}
+
+		function copyUrl() {
+			const address = window.location.href;
+			navigator.clipboard.writeText(address);
+			document.getElementById("alertURL").hidden = false;
+		}
+		function closeAlert() {
+			document.getElementById("alertURL").hidden = true;
 		}
 	</script>
 }
