@@ -17,4 +17,53 @@
 			Цвета
 		</a>
 	</div>
+	<form method="post" asp-action="AddColor">
+		<div class="d-flex justify-content-start mt-4 mb-4">
+			<input asp-for="NewColor" class="form-control me-2" placeholder="Новый цвет" style="width: 300px" />
+			<button type="submit" class="btn btn-outline-primary me-2"
+					style="width: 300px">
+				Добавить новый цвет
+			</button>
+			<span asp-validation-for="NewColor" class="text-danger"></span>
+		</div>
+	</form>
+
+	<table>
+		<tr>
+			<th>Id</th>
+			<th>Цвет</th>
+			<th></th>
+		</tr>
+		@foreach (Color color in Model.Colors)
+		{
+			string modalId = "modal" + Convert.ToString(color.Id);
+			<tr>
+				<td>@color.Id</td>
+				<td>@color.Name</td>
+				<td>
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal"
+							data-bs-target="#@modalId">
+						Удалить цвет
+					</button>
+				</td>
+			</tr>
+			<div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">Вы уверены, что хотите удалить @color.Name цвет?</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							Это действие невозможно отменить
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+							<a asp-action="DeleteColor" asp-route-id="@color.Id" type="button" class="btn btn-danger">Удалить</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</table>
 </div>

@@ -113,7 +113,7 @@ namespace AutoTradeHub.Models
 			createdCar.MarkaId = random.Next(1, 5);
 			createdCar.ModelId = random.Next(1, 5);
 			createdCar.GenerationId = random.Next(1, 5);
-			createdCar.ColorId = random.Next(1, 3);
+			createdCar.ColorId = 5;
 			createdCar.Price = Convert.ToUInt32(random.Next(1, 2000000));
 			createdCar.EngineVolume = random.Next(1, 10);
 			createdCar.EnginePower = Convert.ToUInt16(random.Next(1, 1000));

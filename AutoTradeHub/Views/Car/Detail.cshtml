@@ -88,6 +88,13 @@
 				</p>
 			}
 
+			@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+			{
+				<h5 class="mt-4">Создатель объявления</h5>
+				<p>Id: @Model.AppUser.Id</p>
+				<p>UserName: @Model.AppUser.UserName</p>
+			}
+
 			@if (User.Identity.IsAuthenticated && ViewBag.curUserId == Model.AppUserId)
 			{
 				<div class="row mt-4">

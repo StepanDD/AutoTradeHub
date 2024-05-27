@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using System.Reflection.Emit;
+using System.Reflection.Metadata;
 
 namespace AutoTradeHub.Data
 {
@@ -17,4 +19,3 @@ namespace AutoTradeHub.Data
         public DbSet<Favorites> favorites { get; set; }
         public DbSet<Photo> photos { get; set; }
 	}
-}
