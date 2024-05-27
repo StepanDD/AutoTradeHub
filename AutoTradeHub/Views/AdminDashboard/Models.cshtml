@@ -17,36 +17,44 @@
 			Цвета
 		</a>
 	</div>
-	<form method="post" asp-action="AddMarka">
+	<form method="post" asp-action="AddModel">
 		<div class="d-flex justify-content-start mt-4 mb-4">
-			<input asp-for="NewMarka" class="form-control me-2" placeholder="Новая марка" style="width: 300px" />
+			<input asp-for="NewModel" class="form-control me-2" placeholder="Новая модель" style="width: 300px" />
 			<span asp-validation-for="NewMarka" class="text-danger"></span>
+			<input hidden asp-for="NewModelMarkaFK" value="@ViewBag.markaId" />
+			<input hidden asp-for="NewModelMarkaName" value="@Model.NewModelMarkaName" />
 			<button type="submit" class="btn btn-outline-primary me-2"
 					style="width: 300px">
-				Добавить новую марку
+				Добавить новую модель
 			</button>
+			<a asp-action="MMG" type="button" class="btn btn-outline-primary me-2"
+					style="width: 300px">
+				К маркам
+			</a>
 		</div>
 	</form>
+	<h3>Модели марки @Model.NewModelMarkaName</h3>
 
 	<table>
 		<tr>
 			<th>Id</th>
-			<th>Марка</th>
+			<th>Модель</th>
 			<th></th>
 		</tr>
-		@foreach (Marka marka in Model.Marks)
+		@foreach (Model mmodel in Model.Models)
 		{
 			<tr>
-				<td>@marka.Id</td>
-				<td>@marka.Name</td>
+				<td>@mmodel.Id</td>
+				<td>@mmodel.Name</td>
 				<td>
-					<a asp-action="Models" asp-route-markaId="@marka.Id" asp-route-markaName="@marka.Name"
+					<a asp-action="Generations" asp-route-modelId="@mmodel.Id"
+					   asp-route-modelName="@mmodel.Name" asp-route-markaId="@ViewBag.markaId"
+					   asp-route-markaName="@Model.NewModelMarkaName"
 					type="button" class="btn btn-primary">
-						Модели
+						Поколения
 					</a>
 				</td>
 			</tr>
 		}
 	</table>
 </div>
-

@@ -59,5 +59,15 @@ namespace AutoTradeHub.Repository
             _context.Update(car);
             return Save();
         }
-    }
+
+		public async Task UpdateColorToDefault(int colorId)
+		{
+			List<Car> cars = await _context.cars.Where(c => c.ColorId == colorId).ToListAsync();
+            foreach (Car car in cars)
+            {
+                car.ColorId = -1;
+                Update(car);
+            }
+		}
+	}
 }

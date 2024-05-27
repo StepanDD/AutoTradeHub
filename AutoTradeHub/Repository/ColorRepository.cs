@@ -8,10 +8,12 @@ namespace AutoTradeHub.Repository
 	public class ColorRepository : IColorRepository
 	{
 		private readonly AppDbContext _context;
+		private readonly ICarRepository _carRepository;
 
-		public ColorRepository(AppDbContext context)
+		public ColorRepository(AppDbContext context, ICarRepository carRepository)
 		{
 			_context = context;
+			_carRepository = carRepository;
 		}
 
 		public bool Add(Color color)
@@ -22,11 +24,16 @@ namespace AutoTradeHub.Repository
 
 		public bool Delete(Color color)
 		{
+			if (color.Id == -1)
+			{
+				return false;
+			}
+			_carRepository.UpdateColorToDefault(color.Id);
 			_context.Remove(color);
 			return Save();
 		}
 
-		public async Task<bool> DeleteById(int id)
+		public async Task<bool> DeleteById(int id) //Не использовать (не работает)
 		{
 			Color color = await GetByIdAsync(id);
 			Delete(color);

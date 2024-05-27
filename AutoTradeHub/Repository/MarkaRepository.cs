@@ -26,7 +26,7 @@ namespace AutoTradeHub.Repository
             return Save();
         }
 
-        public async Task<IEnumerable<Marka>> GetAll()
+        public async Task<List<Marka>> GetAll()
         {
             return await _context.marks.OrderBy(s => s.Name).ToListAsync();
         }

@@ -1,0 +1,56 @@
+﻿@using AutoTradeHub.ViewModels
+@model AdminDashboardVM
+
+
+<div class="container">
+	<div class="d-flex justify-content-start mt-4 mb-4">
+		<a asp-action="Users" type="button" class="btn btn-outline-primary me-2"
+		   style="width: 300px">
+			Пользователи
+		</a>
+		<a asp-action="MMG" type="button" class="btn btn-primary me-2"
+		   style="width: 300px">
+			Марки, модели, поколения
+		</a>
+		<a asp-action="Colors" type="button" class="btn btn-outline-primary"
+		   style="width: 300px">
+			Цвета
+		</a>
+	</div>
+	<form method="post" asp-action="AddGeneration">
+		<div class="d-flex justify-content-start mt-4 mb-4">
+			<input asp-for="NewGeneration" class="form-control me-2" placeholder="Новое поколение" style="width: 300px" />
+			<span asp-validation-for="NewGeneration" class="text-danger"></span>
+			<input hidden asp-for="NewGenerationModelFK" value="@ViewBag.modelId" />
+			<input hidden asp-for="NewModelMarkaFK" value="@ViewBag.markaId" />
+			<input hidden asp-for="NewGenerationModelName" value="@Model.NewGenerationModelName" />
+			<input hidden asp-for="NewModelMarkaName" value="@Model.NewModelMarkaName" />
+			<button type="submit" class="btn btn-outline-primary me-2"
+					style="width: 300px">
+				Добавить новое поколение
+			</button>
+			<a asp-action="Models" asp-route-markaId="@ViewBag.markaId"
+			asp-route-markaName="@Model.NewModelMarkaName"
+			type="button" class="btn btn-outline-primary me-2"
+			   style="width: 300px">
+				К моделям
+			</a>
+		</div>
+	</form>
+	<h3>Поколения @Model.NewModelMarkaName @Model.NewGenerationModelName</h3>
+
+	<table>
+		<tr>
+			<th>Id</th>
+			<th>Поколение</th>
+		</tr>
+		@foreach (Generation generation in Model.Generations)
+		{
+			<tr>
+				<td>@generation.Id</td>
+				<td>@generation.Name</td>
+			</tr>
+		}
+	</table>
+</div>
+
