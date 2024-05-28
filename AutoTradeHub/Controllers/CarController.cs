@@ -34,10 +34,31 @@ namespace AutoTradeHub.Controllers
 			_photoRepository = photoRepository;
 			_photoService = photoService;
 		}
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+			ViewBag.marks = await _markaRepository.GetAll();
+			ViewBag.colors = await _colorRepository.GetAll();
+			ViewBag.isFirst = true;
+			CarSearchVM searchVM = new CarSearchVM();
+			return View();
         }
+		[HttpPost]
+		public async Task<IActionResult> Index(CarSearchVM vM)
+		{
+			ViewBag.marks = await _markaRepository.GetAll();
+			ViewBag.colors = await _colorRepository.GetAll();
+			ViewBag.isFirst = false;
+			List<Car> cars = await _carRepository.SearchCar(vM);
+			List<CarVM> carsVM = new List<CarVM>();
+			foreach (Car car in cars)
+			{
+				CarVM carVM = new CarVM(car);
+				carsVM.Add(carVM);
+			}
+			vM.Cars = carsVM;
+			return View("Index", vM);
+		}
+
         public async Task<IActionResult> Detail(int id)
         {
             Car car = await _carRepository.GetByIdAsync(id);

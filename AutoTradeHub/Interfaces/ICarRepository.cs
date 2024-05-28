@@ -1,4 +1,5 @@
 ﻿using AutoTradeHub.Models;
+using AutoTradeHub.ViewModels;
 
 namespace AutoTradeHub.Interfaces
 {
@@ -13,5 +14,6 @@ namespace AutoTradeHub.Interfaces
         bool Delete(Car car);
         Task<bool> DeleteById(int id);
         bool Save();
+        Task<List<Car>> SearchCar(CarSearchVM searchVM);
     }
 }

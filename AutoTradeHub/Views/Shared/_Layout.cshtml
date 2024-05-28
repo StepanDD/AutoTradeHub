@@ -22,7 +22,7 @@
 		</a>
 
 		<ul class="nav nav-pills">
-			<li class="nav-item"><a class="nav-link disabled">Поиск авто</a></li>
+			<li class="nav-item"><a asp-controller="Car" asp-action="Index" class="nav-link">Поиск авто</a></li>
 			<li class="nav-item"><a asp-controller="Car" asp-action="Create" class="nav-link">Разместить объявление</a></li>
 			@if (User.Identity.IsAuthenticated)
 			{

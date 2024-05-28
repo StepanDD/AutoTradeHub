@@ -2,6 +2,7 @@
 using AutoTradeHub.Interfaces;
 using AutoTradeHub.Models;
 using AutoTradeHub.Service;
+using AutoTradeHub.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -54,7 +55,17 @@ namespace AutoTradeHub.Repository
             return saved > 0 ? true : false;
         }
 
-        public bool Update(Car car)
+		public async Task<List<Car>> SearchCar(CarSearchVM searchVM)
+		{
+            if (searchVM.MaxPrice == 0)
+                searchVM.MaxPrice = 4294967295;
+			return await _context.cars.Include(a => a.Marka).Include(a => a.Model)
+                //.Where(c => c.MarkaId == searchVM.MarkaId)
+                .Where(c => c.Price <= searchVM.MaxPrice && c.Price >= searchVM.MinPrice)
+                .ToListAsync();
+		}
+
+		public bool Update(Car car)
         {
             _context.Update(car);
             return Save();
